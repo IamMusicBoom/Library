@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
@@ -42,15 +43,18 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         rootView.setOrientation(LinearLayout.VERTICAL);
         rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         if (null != getTitleStr()) {// 生成title
-            View title = getLayoutInflater().inflate(R.layout.title_bar_view, rootView,false);
+            Toolbar title = (Toolbar) getLayoutInflater().inflate(R.layout.title_bar_view, rootView,false);
             mTitleBar = new TitleBar(mContext, title);
             mTitleBar.setTitleText(getTitleStr());
             mTitleBar.setOnTitleBarClickListener(this);
             rootView.addView(title);
+            setSupportActionBar(title);
         }
         if(getLayoutId() != 0){// 生成内容区域
-            mBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), null, false);
-            rootView.addView(mBinding.getRoot());
+            mBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), rootView, false);
+            if(mBinding != null){
+                rootView.addView(mBinding.getRoot());
+            }
         }
         return rootView;
     }
