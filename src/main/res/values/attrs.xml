@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TitleBar">
+        <attr name="showMode" format="string" />
+        <attr name="leftImg" format="reference" />
+        <attr name="leftTv" format="reference" />
+        <attr name="midImg" format="reference" />
+        <attr name="midTv" format="reference" />
+        <attr name="rightImg" format="reference" />
+        <attr name="rightTv" format="reference" />
+        <attr name="rightTvColor" format="color" />
+        <attr name="leftTvColor" format="color" />
+        <attr name="midTvColor" format="color" />
+
+        <attr name="rightTvSize" format="dimension" />
+        <attr name="leftTvSize" format="dimension" />
+        <attr name="midTvSize" format="dimension" />
+    </declare-styleable>
+</resources>
