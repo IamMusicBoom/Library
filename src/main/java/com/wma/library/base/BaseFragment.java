@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 
 import com.wma.library.R;
 import com.wma.library.impl.IBaseImpl;
+import com.wma.library.log.Logger;
+import com.wma.library.utils.LoadingUtils;
 import com.wma.library.widget.titlebar.OnBaseTitleBarClickListener;
 import com.wma.library.widget.titlebar.TitleBar;
 
@@ -26,14 +28,16 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public String TAG;
     public T mBinding;
     public TitleBar mTitleBar;
-    private Context mContext;
-    private ViewGroup mParent;
+    public Context mContext;
+    public ViewGroup mParent;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContext = container.getContext();
         mParent = container;
+        TAG = this.getClass().getSimpleName();
         return generateRootView();
     }
 
@@ -59,6 +63,13 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
             rootView.addView(mBinding.getRoot());
         }
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Logger.d(TAG, "onActivityCreated: ");
+        init(savedInstanceState);
     }
 
     @Override

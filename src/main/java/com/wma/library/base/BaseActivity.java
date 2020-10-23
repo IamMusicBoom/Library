@@ -22,13 +22,17 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.wma.library.R;
 import com.wma.library.impl.IBaseImpl;
 import com.wma.library.log.Logger;
+import com.wma.library.utils.LoadingUtils;
 import com.wma.library.utils.ScreenUtils;
 import com.wma.library.widget.titlebar.OnBaseTitleBarClickListener;
 import com.wma.library.widget.titlebar.TitleBar;
+
+import org.xutils.common.Callback;
 
 /**
  * create by wma
@@ -38,8 +42,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     public String TAG;
     public T mBinding;
     public TitleBar mTitleBar;
-    private Context mContext;
-    private LinearLayout mRootView;
+    public Context mContext;
+    public LinearLayout mRootView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +53,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
         mContext = this;
         beforeSetContentView();
         setContentView(generateRootView());
-        init();
+        init(savedInstanceState);
+
     }
 
 
@@ -80,8 +86,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     public void beforeSetContentView() {
 
     }
-
-
 
 
     /**
@@ -135,6 +139,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     }
 
 
+
     @Override
     public void onLeftLlClick(View view) {
         onBackPressed();
@@ -149,4 +154,5 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     protected void onDestroy() {
         super.onDestroy();
     }
+
 }
