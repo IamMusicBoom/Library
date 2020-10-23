@@ -1,9 +1,13 @@
 package com.wma.library.base;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -35,7 +39,6 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     public T mBinding;
     public TitleBar mTitleBar;
     private Context mContext;
-    private View statusBarView;
     private LinearLayout mRootView;
 
     @Override
@@ -77,6 +80,8 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     public void beforeSetContentView() {
 
     }
+
+
 
 
     /**
@@ -125,7 +130,7 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
      * @param color
      * @param alpha
      */
-    public void immerseStatusWithDrawerLayout( DrawerLayout drawerLayout, @ColorInt int color, @IntRange(from = 0, to = 255) int alpha) {
+    public void immerseStatusWithDrawerLayout(DrawerLayout drawerLayout, @ColorInt int color, @IntRange(from = 0, to = 255) int alpha) {
         ScreenUtils.setColorForDrawerLayout(this, drawerLayout, color, alpha);
     }
 
@@ -138,5 +143,10 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
     @Override
     public void onRightLlClick(View view) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
