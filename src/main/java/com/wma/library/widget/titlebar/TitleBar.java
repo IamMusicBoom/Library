@@ -2,6 +2,7 @@ package com.wma.library.widget.titlebar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -11,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
+
 import com.wma.library.R;
 import com.wma.library.utils.DPUtils;
-
 
 
 /**
@@ -114,8 +117,6 @@ public class TitleBar implements View.OnClickListener {
     }
 
 
-
-
     /**
      * @param showMode showMode 由 6位数字组成，数字由01组成，0代表GONE，1代表VISIBLE，2代表INVISIBLE
      *                 111111
@@ -200,6 +201,11 @@ public class TitleBar implements View.OnClickListener {
         mRightTv = mRootView.findViewById(R.id.title_right_tv);
         mLeftLl = mRootView.findViewById(R.id.title_left_ll);
         mRightLl = mRootView.findViewById(R.id.title_right_ll);
+    }
+
+
+    public void setBackgroundColor(@ColorInt int color) {
+        mRootView.setBackgroundColor(color);
     }
 
     @Override

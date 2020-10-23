@@ -5,4 +5,12 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+
+    <!-- Launcher activity theme.  to remove white bg -->
+    <style name="LauncherTheme" parent="Theme.AppCompat">
+        <item name="android:windowBackground">@mipmap/ic_launcher</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

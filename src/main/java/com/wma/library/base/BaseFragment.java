@@ -70,4 +70,5 @@ public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment i
     public void onRightLlClick(View view) {
 
     }
+
 }
