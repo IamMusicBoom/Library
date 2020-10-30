@@ -11,7 +11,26 @@ import org.xutils.common.Callback;
  */
 public class BaseModule {
 
+    private int error_code;
 
+    public int getError_code() {
+        return error_code;
+    }
+
+    public void setError_code(int error_code) {
+        this.error_code = error_code;
+    }
+
+
+    private String reason;
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public HttpUtils mHttpUtils;
 
@@ -21,8 +40,8 @@ public class BaseModule {
         mHttpUtils = new HttpUtils();
     }
 
-    public void cancelLoad(){
-        if(mCancelable != null){
+    public void cancelLoad() {
+        if (mCancelable != null) {
             mCancelable.cancel();
         }
     }

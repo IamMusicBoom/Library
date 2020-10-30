@@ -12,6 +12,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.wma.library.R;
 import com.wma.library.log.Logger;
 import com.wma.library.utils.JsonUtils;
@@ -105,8 +106,27 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
                 }
                 handleBySuccess(list);
             } else if (object instanceof JSONObject) {
-                T t = new Gson().fromJson(object.toString(), type);
-                handleBySuccess(t);
+                JSONObject jo = ((JSONObject) object);
+                if (jo.has("result")) {
+                    Object o = jo.get("result");
+                    if (o instanceof JSONArray) {
+                        JSONArray dataJsonArray = (JSONArray) o;
+                        List<T> list = new ArrayList<>();
+                        for (int i = 0; i < dataJsonArray.length(); i++) {
+                            JSONObject jsonObject1 = null;
+                            jsonObject1 = dataJsonArray.getJSONObject(i);
+                            T t = new Gson().fromJson(jsonObject1.toString(), type);
+                            list.add(t);
+                        }
+                        handleBySuccess(list);
+                    } else if (o instanceof JSONObject) {
+                        T t = new Gson().fromJson(o.toString(), type);
+                        handleBySuccess(t);
+                    }
+                } else {
+                    T t = new Gson().fromJson(object.toString(), type);
+                    handleBySuccess(t);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
