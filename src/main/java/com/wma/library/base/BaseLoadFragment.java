@@ -122,6 +122,9 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
                     } else if (o instanceof JSONObject) {
                         T t = new Gson().fromJson(o.toString(), type);
                         handleBySuccess(t);
+                    }else if(o == null || o.toString().equals("null")){
+                        // error_code = 207301 城市不能为空或者暂时不支持该城市
+                        handleByFail(jo.getString("error_code"));
                     }
                 } else {
                     T t = new Gson().fromJson(object.toString(), type);
