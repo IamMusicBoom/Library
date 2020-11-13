@@ -38,9 +38,9 @@ import org.xutils.common.Callback;
  * create by wma
  * on 2020/9/10 0010
  */
-public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity implements IBaseImpl, OnBaseTitleBarClickListener {
+public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseImpl, OnBaseTitleBarClickListener {
     public String TAG;
-    public T mBinding;
+    public B mBinding;
     public TitleBar mTitleBar;
     public Context mContext;
     public LinearLayout mRootView;

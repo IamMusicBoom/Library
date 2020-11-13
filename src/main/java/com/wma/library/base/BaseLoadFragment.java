@@ -120,8 +120,26 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
                         }
                         handleBySuccess(list);
                     } else if (o instanceof JSONObject) {
-                        T t = new Gson().fromJson(o.toString(), type);
-                        handleBySuccess(t);
+                        if(((JSONObject) o).has("data")){
+                            Object data = ((JSONObject) o).get("data");
+                            if(data instanceof JSONArray){
+                                JSONArray dataJsonArray = (JSONArray) data;
+                                List<T> list = new ArrayList<>();
+                                for (int i = 0; i < dataJsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = null;
+                                    jsonObject1 = dataJsonArray.getJSONObject(i);
+                                    T t = new Gson().fromJson(jsonObject1.toString(), type);
+                                    list.add(t);
+                                }
+                                handleBySuccess(list);
+                            }else{
+                                T t = new Gson().fromJson(o.toString(), type);
+                                handleBySuccess(t);
+                            }
+                        }else{
+                            T t = new Gson().fromJson(o.toString(), type);
+                            handleBySuccess(t);
+                        }
                     }else if(o == null || o.toString().equals("null")){
                         // error_code = 207301 城市不能为空或者暂时不支持该城市
                         handleByFail(jo.getString("error_code"));
@@ -164,4 +182,6 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
 
     public void handleByFail(String msg) {
     }
+
+
 }
