@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
@@ -13,6 +14,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.wma.library.R;
 import com.wma.library.log.Logger;
 import com.wma.library.utils.JsonUtils;
@@ -33,21 +43,26 @@ import java.util.List;
  * create by wma
  * on 2020/10/23 0023
  */
-public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataBinding> extends BaseFragment<B> implements Callback.CommonCallback<String> {
+public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataBinding> extends BaseFragment<B> implements Callback.CommonCallback<String>, OnRefreshListener, OnLoadMoreListener {
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SmartRefreshLayout mSmartRefreshLayout;
 
     @Override
-    public void init(Bundle savedInstanceState) {
-        loadData();
-        mSwipeRefreshLayout.setEnabled(canRefresh());
-        mSwipeRefreshLayout.setRefreshing(true);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-            }
-        });
+    public void init(@Nullable Bundle savedInstanceState) {
+        mSmartRefreshLayout = getSmartRefreshLayout();
+        setEnableRefresh(enableRefresh());
+        setEnableLoadMore(enableLoadMore());
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    public void autoRefresh(){
+        if (mSmartRefreshLayout != null) {
+            mSmartRefreshLayout.autoRefresh();
+        }
     }
 
     /**
@@ -55,30 +70,75 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
      *
      * @return
      */
-    protected abstract boolean canRefresh();
+    private void setEnableRefresh(boolean refresh) {
+        mSmartRefreshLayout.setEnableRefresh(refresh);
+        if(refresh){
+            mSmartRefreshLayout.setRefreshHeader(getRefreshHeader());
+            mSmartRefreshLayout.setOnRefreshListener(this);
+        }
+    }
 
-    protected abstract void loadData();
+    /**
+     * 是否可以加载更多
+     *
+     * @return
+     */
+    private void setEnableLoadMore(boolean loadMore) {
+        mSmartRefreshLayout.setEnableLoadMore(loadMore);
+        if(loadMore){
+            mSmartRefreshLayout.setRefreshFooter(getRefreshFooter());
+            mSmartRefreshLayout.setOnLoadMoreListener(this);
+        }
+    }
+
+    /**
+     * 是否可以刷新
+     * @return
+     */
+    protected boolean enableRefresh(){
+        return true;
+    }
+
+    /**
+     * 是否可以加载更多
+     * @return
+     */
+    protected boolean enableLoadMore(){
+        return true;
+    }
 
     @Override
-    public View generateRootView() {
-        mSwipeRefreshLayout = new SwipeRefreshLayout(mContext);
-        LinearLayout rootView = new LinearLayout(mContext);
-        mSwipeRefreshLayout.addView(rootView);
-        rootView.setOrientation(LinearLayout.VERTICAL);
-        rootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        if (null != getTitleStr()) {// 生成title
-            View title = getLayoutInflater().inflate(R.layout.title_bar_view, rootView, false);
-            mTitleBar = new TitleBar(mContext, title);
-            mTitleBar.setTitleText(getTitleStr());
-            mTitleBar.setOnTitleBarClickListener(this);
-            rootView.addView(title);
-        }
-        if (getLayoutId() != 0) {// 生成内容区域
-            mBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), mParent, false);
-            rootView.addView(mBinding.getRoot());
-        }
-        return mSwipeRefreshLayout;
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        loadData();
     }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+    }
+
+    /**
+     * 获取刷新头，重写该方法可以替换刷新头部
+     *
+     * @return
+     */
+    protected RefreshHeader getRefreshHeader() {
+        return new BezierRadarHeader(getContext());
+    }
+
+    /**
+     * 获取加载底，重写该方法可以替换加载底
+     *
+     * @return
+     */
+    protected RefreshFooter getRefreshFooter() {
+        return new ClassicsFooter(getContext());
+    }
+
+
+    protected abstract SmartRefreshLayout getSmartRefreshLayout();
+
+    protected abstract void loadData();
 
 
     public Type getType() {
@@ -120,9 +180,9 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
                         }
                         handleBySuccess(list);
                     } else if (o instanceof JSONObject) {
-                        if(((JSONObject) o).has("data")){
+                        if (((JSONObject) o).has("data")) {
                             Object data = ((JSONObject) o).get("data");
-                            if(data instanceof JSONArray){
+                            if (data instanceof JSONArray) {
                                 JSONArray dataJsonArray = (JSONArray) data;
                                 List<T> list = new ArrayList<>();
                                 for (int i = 0; i < dataJsonArray.length(); i++) {
@@ -132,15 +192,15 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
                                     list.add(t);
                                 }
                                 handleBySuccess(list);
-                            }else{
+                            } else {
                                 T t = new Gson().fromJson(o.toString(), type);
                                 handleBySuccess(t);
                             }
-                        }else{
+                        } else {
                             T t = new Gson().fromJson(o.toString(), type);
                             handleBySuccess(t);
                         }
-                    }else if(o == null || o.toString().equals("null")){
+                    } else if (o == null || o.toString().equals("null")) {
                         // error_code = 207301 城市不能为空或者暂时不支持该城市
                         handleByFail(jo.getString("error_code"));
                     }
@@ -169,7 +229,12 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
 
     @Override
     public void onFinished() {
-        mSwipeRefreshLayout.setRefreshing(false);
+        if (mSmartRefreshLayout.isRefreshing()) {
+            mSmartRefreshLayout.finishRefresh();
+        }
+        if(mSmartRefreshLayout.isLoading()){
+            mSmartRefreshLayout.finishLoadMore();
+        }
     }
 
     public void handleBySuccess(T result) {

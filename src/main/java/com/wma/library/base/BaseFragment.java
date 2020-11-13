@@ -78,6 +78,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
         return rootView;
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

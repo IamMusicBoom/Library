@@ -27,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.wma.library.R;
 import com.wma.library.impl.IBaseImpl;
 import com.wma.library.log.Logger;
+import com.wma.library.utils.DPUtils;
 import com.wma.library.utils.LoadingUtils;
 import com.wma.library.utils.ScreenUtils;
 import com.wma.library.widget.titlebar.OnBaseTitleBarClickListener;
@@ -44,6 +45,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     public TitleBar mTitleBar;
     public Context mContext;
     public LinearLayout mRootView;
+    private boolean mImmerse;
 
 
     @Override
@@ -53,6 +55,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         mContext = this;
         beforeSetContentView();
         setContentView(generateRootView());
+        immerseStatus(true, false, ContextCompat.getColor(mContext,R.color.status_bar_color), 0);
         init(savedInstanceState);
 
     }
@@ -101,6 +104,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
      * @param alpha       状态栏透明度
      */
     public void immerseStatus(boolean isImmerse, boolean isLightMode, @ColorInt int color, @IntRange(from = 0, to = 255) int alpha) {
+        mImmerse = isImmerse;
         if (isImmerse) {
             ScreenUtils.immerseStatusBar(this);
         }

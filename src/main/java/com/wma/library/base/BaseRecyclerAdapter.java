@@ -37,8 +37,16 @@ public abstract class BaseRecyclerAdapter<T extends BaseModule, B extends ViewDa
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseRecyclerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BaseRecyclerHolder holder, int position) {
         Logger.d(TAG, "onBindViewHolder: holder.getBinding() = " + holder.getBinding());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onItemClickListener(holder.getAdapterPosition(), mList.get(holder.getAdapterPosition()));
+                }
+            }
+        });
         bindData((B) holder.getBinding(), mList.get(position), holder, position);
     }
 
@@ -50,6 +58,17 @@ public abstract class BaseRecyclerAdapter<T extends BaseModule, B extends ViewDa
     public abstract void bindData(B binding, T data, BaseRecyclerHolder holder, int position);
 
     public abstract int getLayoutId();
+
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    OnItemClickListener listener;
+
+    public interface OnItemClickListener<T extends BaseModule> {
+        void onItemClickListener(int position, T data);
+    }
 
     /**
      * 添加一堆数据
@@ -97,4 +116,37 @@ public abstract class BaseRecyclerAdapter<T extends BaseModule, B extends ViewDa
         notifyItemRangeInserted(start, 1);
 
     }
+
+
+    /**
+     * 删除一条数据
+     *
+     * @param position
+     * @param item
+     */
+    public void removeData(int position, T item) {
+        int start = position;
+        mList.remove(position);
+        notifyItemRangeRemoved(start, 1);
+    }
+
+    /**
+     * 删除一堆数据
+     * @param position
+     * @param list
+     */
+    public void removeData(int position, List<T> list) {
+        int start = position;
+        mList.removeAll(list);
+        notifyItemRangeRemoved(start, list.size());
+    }
+
+    /**
+     * 清空数据
+     */
+    public void removeAllData() {
+        notifyItemRangeRemoved(0, mList.size());
+        mList.clear();
+    }
+
 }

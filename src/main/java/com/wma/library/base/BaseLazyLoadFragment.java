@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.wma.library.log.Logger;
 
 /**
@@ -32,6 +33,8 @@ public abstract class BaseLazyLoadFragment<T extends BaseModule, B extends ViewD
      */
     protected boolean isAlreadyLoadData = false;
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,11 +44,12 @@ public abstract class BaseLazyLoadFragment<T extends BaseModule, B extends ViewD
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (isVisible && !isAlreadyLoadData) {
-            loadLazyData();
+            autoRefresh();
         }
     }
 
@@ -54,7 +58,7 @@ public abstract class BaseLazyLoadFragment<T extends BaseModule, B extends ViewD
         super.setUserVisibleHint(isVisibleToUser);
         isVisible = isVisibleToUser;
         if (isVisible && isViewCreated && !isAlreadyLoadData) {
-            loadLazyData();
+            autoRefresh();
         }
     }
 
@@ -62,6 +66,11 @@ public abstract class BaseLazyLoadFragment<T extends BaseModule, B extends ViewD
     @Override
     protected void loadData() {
 
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        loadLazyData();
     }
 
     /**

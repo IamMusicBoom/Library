@@ -5,12 +5,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.gson.Gson;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.wma.library.R;
 import com.wma.library.log.Logger;
 import com.wma.library.widget.titlebar.TitleBar;
@@ -30,45 +39,98 @@ import java.util.List;
  * create by wma
  * on 2020/10/23 0023
  */
-public abstract class BaseLoadActivity<B extends ViewDataBinding,T extends BaseModule> extends BaseActivity<B> implements Callback.CommonCallback<String> {
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBinding> extends BaseActivity<B> implements Callback.CommonCallback<String>, OnRefreshListener, OnLoadMoreListener {
+    private SmartRefreshLayout mSmartRefreshLayout;
 
     @Override
     public void init(Bundle savedInstanceState) {
-        mSwipeRefreshLayout.setRefreshing(true);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-            }
-        });
+        mSmartRefreshLayout = getSmartRefreshLayout();
+        setEnableRefresh(enableRefresh());
+        setEnableLoadMore(enableLoadMore());
+        autoRefresh();
     }
 
     protected abstract void loadData();
 
-    @Override
-    public View generateRootView() {
-        mSwipeRefreshLayout = new SwipeRefreshLayout(mContext);
-        mRootView = new LinearLayout(mContext);
-        mSwipeRefreshLayout.addView(mRootView);
-        mRootView.setOrientation(LinearLayout.VERTICAL);
-        mRootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        if (null != getTitleStr()) {// 生成title
-            Toolbar title = (Toolbar) getLayoutInflater().inflate(R.layout.title_bar_view, mRootView, false);
-            mTitleBar = new TitleBar(mContext, title);
-            mTitleBar.setTitleText(getTitleStr());
-            mTitleBar.setOnTitleBarClickListener(this);
-            mRootView.addView(title);
-            setSupportActionBar(title);
+    public void autoRefresh(){
+        if (mSmartRefreshLayout != null) {
+            mSmartRefreshLayout.autoRefresh();
         }
-        if (getLayoutId() != 0) {// 生成内容区域
-            mBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), mRootView, false);
-            if (mBinding != null) {
-                mRootView.addView(mBinding.getRoot());
-            }
-        }
-        return mSwipeRefreshLayout;
     }
+
+    /**
+     * 是否可以刷新
+     *
+     * @return
+     */
+    private void setEnableRefresh(boolean refresh) {
+        mSmartRefreshLayout.setEnableRefresh(refresh);
+        if(refresh){
+            mSmartRefreshLayout.setRefreshHeader(getRefreshHeader());
+            mSmartRefreshLayout.setOnRefreshListener(this);
+        }
+    }
+
+    /**
+     * 是否可以加载更多
+     *
+     * @return
+     */
+    private void setEnableLoadMore(boolean loadMore) {
+        mSmartRefreshLayout.setEnableLoadMore(loadMore);
+        if(loadMore){
+            mSmartRefreshLayout.setRefreshFooter(getRefreshFooter());
+            mSmartRefreshLayout.setOnLoadMoreListener(this);
+        }
+    }
+
+    /**
+     * 是否可以刷新
+     * @return
+     */
+    protected boolean enableRefresh(){
+        return true;
+    }
+
+    /**
+     * 是否可以加载更多
+     * @return
+     */
+    protected boolean enableLoadMore(){
+        return true;
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        Logger.d(TAG, "onRefresh: ");
+        loadData();
+    }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+    }
+
+    /**
+     * 获取刷新头，重写该方法可以替换刷新头部
+     *
+     * @return
+     */
+    protected RefreshHeader getRefreshHeader() {
+        return new BezierRadarHeader(this);
+    }
+
+    /**
+     * 获取加载底，重写该方法可以替换加载底
+     *
+     * @return
+     */
+    protected RefreshFooter getRefreshFooter() {
+        return new ClassicsFooter(this);
+    }
+
+
+    protected abstract SmartRefreshLayout getSmartRefreshLayout();
 
 
     public Type getType() {
@@ -159,7 +221,12 @@ public abstract class BaseLoadActivity<B extends ViewDataBinding,T extends BaseM
 
     @Override
     public void onFinished() {
-        mSwipeRefreshLayout.setRefreshing(false);
+        if (mSmartRefreshLayout.isRefreshing()) {
+            mSmartRefreshLayout.finishRefresh();
+        }
+        if(mSmartRefreshLayout.isLoading()){
+            mSmartRefreshLayout.finishLoadMore();
+        }
     }
 
     public void handleBySuccess(T result) {

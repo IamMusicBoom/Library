@@ -5,25 +5,22 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.wma.library.R;
-import com.wma.library.databinding.LayoutRefreshListBinding;
-import com.wma.library.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * create by wma
- * on 2020/11/5 0005
+ * on 2020/11/13 0013
  */
-public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataBinding> extends BaseLoadActivity<T, B> {
+public abstract class BaseListFragment<T extends BaseModule,B extends ViewDataBinding> extends BaseLazyLoadFragment<T,B> {
+
 
     public BaseRecyclerAdapter mAdapter;
     public List<T> mList = new ArrayList<>();
@@ -33,8 +30,8 @@ public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataB
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
         mAdapter = getAdapter();
-        mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView = getView().findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -58,6 +55,6 @@ public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataB
 
     @Override
     protected SmartRefreshLayout getSmartRefreshLayout() {
-        return findViewById(R.id.smart_refresh_layout);
+        return getView().findViewById(R.id.smart_refresh_layout);
     }
 }
