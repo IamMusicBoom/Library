@@ -102,7 +102,6 @@ public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBi
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        Logger.d(TAG, "onRefresh: ");
         loadData();
     }
 

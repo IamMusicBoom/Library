@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.wma.library.R;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public abstract class BaseListFragment<T extends BaseModule,B extends ViewDataBi
     public BaseRecyclerAdapter mAdapter;
     public List<T> mList = new ArrayList<>();
     public RecyclerView mRecyclerView;
+
+    public int mCurPage = 1;
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -52,6 +55,20 @@ public abstract class BaseListFragment<T extends BaseModule,B extends ViewDataBi
     }
 
     public abstract BaseRecyclerAdapter getAdapter();
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        mAdapter.removeAllData();
+        mCurPage = 1;
+        super.onRefresh(refreshLayout);
+    }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+        super.onLoadMore(refreshLayout);
+        mCurPage++;
+        loadLazyData();
+    }
 
     @Override
     protected SmartRefreshLayout getSmartRefreshLayout() {

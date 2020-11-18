@@ -5,16 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.wma.library.R;
-import com.wma.library.databinding.LayoutRefreshListBinding;
-import com.wma.library.log.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +25,8 @@ public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataB
     public BaseRecyclerAdapter mAdapter;
     public List<T> mList = new ArrayList<>();
     public RecyclerView mRecyclerView;
+
+    public int mCurPage = 1;
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -52,6 +51,20 @@ public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataB
 
     public void addList(List<T> list) {
         mAdapter.addData(list);
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        mAdapter.removeAllData();
+        mCurPage = 1;
+        super.onRefresh(refreshLayout);
+    }
+
+    @Override
+    public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+        super.onLoadMore(refreshLayout);
+        mCurPage++;
+        loadData();
     }
 
     public abstract BaseRecyclerAdapter getAdapter();
