@@ -71,10 +71,12 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
      * @return
      */
     private void setEnableRefresh(boolean refresh) {
-        mSmartRefreshLayout.setEnableRefresh(refresh);
-        if(refresh){
-            mSmartRefreshLayout.setRefreshHeader(getRefreshHeader());
-            mSmartRefreshLayout.setOnRefreshListener(this);
+        if(mSmartRefreshLayout != null){
+            mSmartRefreshLayout.setEnableRefresh(refresh);
+            if(refresh){
+                mSmartRefreshLayout.setRefreshHeader(getRefreshHeader());
+                mSmartRefreshLayout.setOnRefreshListener(this);
+            }
         }
     }
 
@@ -84,10 +86,12 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
      * @return
      */
     private void setEnableLoadMore(boolean loadMore) {
-        mSmartRefreshLayout.setEnableLoadMore(loadMore);
-        if(loadMore){
-            mSmartRefreshLayout.setRefreshFooter(getRefreshFooter());
-            mSmartRefreshLayout.setOnLoadMoreListener(this);
+        if(mSmartRefreshLayout != null) {
+            mSmartRefreshLayout.setEnableLoadMore(loadMore);
+            if (loadMore) {
+                mSmartRefreshLayout.setRefreshFooter(getRefreshFooter());
+                mSmartRefreshLayout.setOnLoadMoreListener(this);
+            }
         }
     }
 
@@ -229,11 +233,13 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
 
     @Override
     public void onFinished() {
-        if (mSmartRefreshLayout.isRefreshing()) {
-            mSmartRefreshLayout.finishRefresh();
-        }
-        if(mSmartRefreshLayout.isLoading()){
-            mSmartRefreshLayout.finishLoadMore();
+        if(mSmartRefreshLayout != null) {
+            if (mSmartRefreshLayout.isRefreshing()) {
+                mSmartRefreshLayout.finishRefresh();
+            }
+            if (mSmartRefreshLayout.isLoading()) {
+                mSmartRefreshLayout.finishLoadMore();
+            }
         }
     }
 

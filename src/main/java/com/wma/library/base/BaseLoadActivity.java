@@ -39,7 +39,7 @@ import java.util.List;
  * create by wma
  * on 2020/10/23 0023
  */
-public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBinding> extends BaseActivity<B> implements Callback.CommonCallback<String>, OnRefreshListener, OnLoadMoreListener {
+public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataBinding> extends BaseActivity<B> implements Callback.CommonCallback<String>, OnRefreshListener, OnLoadMoreListener {
     private SmartRefreshLayout mSmartRefreshLayout;
 
     @Override
@@ -47,12 +47,15 @@ public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBi
         mSmartRefreshLayout = getSmartRefreshLayout();
         setEnableRefresh(enableRefresh());
         setEnableLoadMore(enableLoadMore());
-        autoRefresh();
+        if (isAutoRefresh()) {
+            autoRefresh();
+        }
     }
+
 
     protected abstract void loadData();
 
-    public void autoRefresh(){
+    public void autoRefresh() {
         if (mSmartRefreshLayout != null) {
             mSmartRefreshLayout.autoRefresh();
         }
@@ -64,10 +67,12 @@ public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBi
      * @return
      */
     private void setEnableRefresh(boolean refresh) {
-        mSmartRefreshLayout.setEnableRefresh(refresh);
-        if(refresh){
-            mSmartRefreshLayout.setRefreshHeader(getRefreshHeader());
-            mSmartRefreshLayout.setOnRefreshListener(this);
+        if (mSmartRefreshLayout != null) {
+            mSmartRefreshLayout.setEnableRefresh(refresh);
+            if (refresh) {
+                mSmartRefreshLayout.setRefreshHeader(getRefreshHeader());
+                mSmartRefreshLayout.setOnRefreshListener(this);
+            }
         }
     }
 
@@ -77,26 +82,40 @@ public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBi
      * @return
      */
     private void setEnableLoadMore(boolean loadMore) {
-        mSmartRefreshLayout.setEnableLoadMore(loadMore);
-        if(loadMore){
-            mSmartRefreshLayout.setRefreshFooter(getRefreshFooter());
-            mSmartRefreshLayout.setOnLoadMoreListener(this);
+        if (mSmartRefreshLayout != null) {
+            mSmartRefreshLayout.setEnableLoadMore(loadMore);
+            if (loadMore) {
+                mSmartRefreshLayout.setRefreshFooter(getRefreshFooter());
+                mSmartRefreshLayout.setOnLoadMoreListener(this);
+            }
         }
+    }
+
+
+    /**
+     * 是否自动刷新
+     *
+     * @return
+     */
+    public boolean isAutoRefresh() {
+        return true;
     }
 
     /**
      * 是否可以刷新
+     *
      * @return
      */
-    protected boolean enableRefresh(){
+    protected boolean enableRefresh() {
         return true;
     }
 
     /**
      * 是否可以加载更多
+     *
      * @return
      */
-    protected boolean enableLoadMore(){
+    protected boolean enableLoadMore() {
         return true;
     }
 
@@ -171,9 +190,9 @@ public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBi
                         }
                         handleBySuccess(list);
                     } else if (o instanceof JSONObject) {
-                        if(((JSONObject) o).has("data")){
+                        if (((JSONObject) o).has("data")) {
                             Object data = ((JSONObject) o).get("data");
-                            if(data instanceof JSONArray){
+                            if (data instanceof JSONArray) {
                                 JSONArray dataJsonArray = (JSONArray) data;
                                 List<T> list = new ArrayList<>();
                                 for (int i = 0; i < dataJsonArray.length(); i++) {
@@ -183,15 +202,15 @@ public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBi
                                     list.add(t);
                                 }
                                 handleBySuccess(list);
-                            }else{
+                            } else {
                                 T t = new Gson().fromJson(o.toString(), type);
                                 handleBySuccess(t);
                             }
-                        }else{
+                        } else {
                             T t = new Gson().fromJson(o.toString(), type);
                             handleBySuccess(t);
                         }
-                    }else if(o == null || o.toString().equals("null")){
+                    } else if (o == null || o.toString().equals("null")) {
                         // error_code = 207301 城市不能为空或者暂时不支持该城市
                         handleByFail(jo.getString("error_code"));
                     }
@@ -220,11 +239,13 @@ public abstract class BaseLoadActivity<T extends BaseModule,B extends ViewDataBi
 
     @Override
     public void onFinished() {
-        if (mSmartRefreshLayout.isRefreshing()) {
-            mSmartRefreshLayout.finishRefresh();
-        }
-        if(mSmartRefreshLayout.isLoading()){
-            mSmartRefreshLayout.finishLoadMore();
+        if (mSmartRefreshLayout != null) {
+            if (mSmartRefreshLayout.isRefreshing()) {
+                mSmartRefreshLayout.finishRefresh();
+            }
+            if (mSmartRefreshLayout.isLoading()) {
+                mSmartRefreshLayout.finishLoadMore();
+            }
         }
     }
 

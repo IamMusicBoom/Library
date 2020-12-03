@@ -17,4 +17,16 @@
         <attr name="leftTvSize" format="dimension" />
         <attr name="midTvSize" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SubmitBtn">
+        <attr name="Text" format="reference|string"/>
+        <attr name="TextColor" format="reference|color"/>
+        <attr name="BackgroundColor" format="reference|color"/>
+        <attr name="TextSize" format="reference|dimension"/>
+        <attr name="LoadingColor" format="reference|color"/>
+        <attr name="FailColor" format="reference|color"/>
+        <attr name="SuccessColor" format="reference|color"/>
+        <attr name="SuccessHint" format="reference|string"/>
+        <attr name="FailHint" format="reference|string"/>
+    </declare-styleable>
 </resources>

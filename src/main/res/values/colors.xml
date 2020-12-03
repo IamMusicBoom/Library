@@ -3,7 +3,19 @@
     <color name="color_333333">#333333</color>
     <color name="color_e5e5e5">#e5e5e5</color>
     <color name="title_bar_color">#9C00FC</color>
+    <color name="title_bar_text_color">@android:color/white</color>
     <color name="status_bar_color">#9C00FC</color>
     <color name="Transparency">#00000000</color>
     <color name="Translucence">#33000000</color>
+
+
+    <color name="colorPrimary">#9C00FC</color>
+    <color name="colorPrimaryDark">#5F0097</color>
+    <color name="colorAccent">#9C00FC</color>
+
+    <color name="colorLoadBtnFail">#88BB0000</color>
+    <color name="colorLoadBtnSuccess">#8800BB00</color>
+    <color name="colorLoadBtn">#885F0097</color>
+
+
 </resources>

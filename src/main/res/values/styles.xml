@@ -1,6 +1,6 @@
 <resources>
     <style name="TitleTextView" >
-        <item name="android:textColor">@color/color_333333</item>
+        <item name="android:textColor">@color/title_bar_text_color</item>
         <item name="android:textSize">@dimen/TextSize_15sp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
