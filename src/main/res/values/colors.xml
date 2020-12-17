@@ -17,5 +17,8 @@
     <color name="colorLoadBtnSuccess">#8800BB00</color>
     <color name="colorLoadBtn">#885F0097</color>
 
+    <color name="colorNormalFinishBtn">#FF030C</color>
+    <color name="colorPressFinishBtn">#D8020C</color>
 
+    <color name="transparent">#55ffffff</color>
 </resources>

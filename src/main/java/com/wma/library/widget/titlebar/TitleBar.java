@@ -245,34 +245,74 @@ public class TitleBar implements View.OnClickListener {
     }
 
     public void setTitleText(int resource) {
-        mMidTv.setText(resource);
+        if (resource <= 0) {
+            mMidTv.setVisibility(View.INVISIBLE);
+        } else {
+            mMidTv.setVisibility(View.VISIBLE);
+            mMidTv.setText(resource);
+        }
     }
 
     public void setTitleText(String text) {
-        mMidTv.setText(text);
+        if (TextUtils.isEmpty(text)) {
+            mMidTv.setVisibility(View.INVISIBLE);
+        } else {
+            mMidTv.setVisibility(View.VISIBLE);
+            mMidTv.setText(text);
+        }
     }
 
     public void setLeftText(int resource) {
-        mLeftTv.setText(resource);
+        if (resource <= 0) {
+            mLeftTv.setVisibility(View.INVISIBLE);
+        } else {
+            mLeftTv.setVisibility(View.VISIBLE);
+            mLeftTv.setText(resource);
+        }
     }
 
     public void setLeftText(String text) {
-        mLeftTv.setText(text);
+        if (TextUtils.isEmpty(text)) {
+            mLeftTv.setVisibility(View.INVISIBLE);
+        } else {
+            mLeftTv.setVisibility(View.VISIBLE);
+            mLeftTv.setText(text);
+        }
     }
 
     public void setRightText(int resource) {
-        mRightTv.setText(resource);
+        if (resource <= 0) {
+            mRightTv.setVisibility(View.INVISIBLE);
+        } else {
+            mRightTv.setVisibility(View.VISIBLE);
+            mRightTv.setText(resource);
+        }
     }
 
     public void setRightText(String text) {
-        mRightTv.setText(text);
+        if (TextUtils.isEmpty(text)) {
+            mRightTv.setVisibility(View.INVISIBLE);
+        } else {
+            mRightTv.setVisibility(View.VISIBLE);
+            mRightTv.setText(text);
+        }
     }
 
     public void setLeftImg(int resource) {
-        mLeftImg.setImageResource(resource);
+        if (resource <= 0) {
+            mLeftImg.setVisibility(View.INVISIBLE);
+        } else {
+            mLeftImg.setVisibility(View.VISIBLE);
+            mLeftImg.setImageResource(resource);
+        }
     }
 
     public void setRightImg(int resource) {
-        mRightImg.setImageResource(resource);
+        if (resource <= 0) {
+            mRightImg.setVisibility(View.INVISIBLE);
+        } else {
+            mRightImg.setVisibility(View.VISIBLE);
+            mRightImg.setImageResource(resource);
+        }
     }
 }

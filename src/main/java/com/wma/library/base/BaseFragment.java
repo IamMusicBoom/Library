@@ -13,25 +13,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.wma.library.R;
 import com.wma.library.impl.IBaseImpl;
-import com.wma.library.log.Logger;
-import com.wma.library.utils.JsonUtils;
-import com.wma.library.utils.LoadingUtils;
 import com.wma.library.widget.titlebar.OnBaseTitleBarClickListener;
 import com.wma.library.widget.titlebar.TitleBar;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xutils.common.Callback;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * create by wma
@@ -83,6 +71,14 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment i
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init(savedInstanceState);
+    }
+
+    public Type getType() {
+        ParameterizedType genType = (ParameterizedType) getClass().getGenericSuperclass();
+
+        Type[] actualTypeArguments = ((ParameterizedType) genType).getActualTypeArguments();
+
+        return actualTypeArguments[0];
     }
 
     @Override

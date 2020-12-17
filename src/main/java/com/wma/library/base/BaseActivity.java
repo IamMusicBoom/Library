@@ -30,10 +30,14 @@ import com.wma.library.log.Logger;
 import com.wma.library.utils.DPUtils;
 import com.wma.library.utils.LoadingUtils;
 import com.wma.library.utils.ScreenUtils;
+import com.wma.library.utils.ToastUtils;
 import com.wma.library.widget.titlebar.OnBaseTitleBarClickListener;
 import com.wma.library.widget.titlebar.TitleBar;
 
 import org.xutils.common.Callback;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * create by wma
@@ -55,7 +59,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         mContext = this;
         beforeSetContentView();
         setContentView(generateRootView());
-        immerseStatus(true, false, ContextCompat.getColor(mContext,R.color.status_bar_color), 0);
+        immerseStatus(true, false, ContextCompat.getColor(mContext, R.color.status_bar_color), 0);
         init(savedInstanceState);
 
     }
@@ -143,7 +147,6 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     }
 
 
-
     @Override
     public void onLeftLlClick(View view) {
         onBackPressed();
@@ -152,6 +155,23 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     public void onRightLlClick(View view) {
 
+    }
+
+    public Type getType() {
+        ParameterizedType genType = (ParameterizedType) getClass().getGenericSuperclass();
+
+        Type[] actualTypeArguments = ((ParameterizedType) genType).getActualTypeArguments();
+
+        return actualTypeArguments[0];
+    }
+
+
+    public void showToast(String msg) {
+        ToastUtils.showToast(this, msg);
+    }
+
+    public void showToast(int msgId) {
+        ToastUtils.showToast(this, msgId);
     }
 
     @Override

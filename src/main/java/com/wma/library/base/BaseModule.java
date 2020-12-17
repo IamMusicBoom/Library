@@ -1,15 +1,17 @@
 package com.wma.library.base;
 
-import com.wma.library.utils.HttpUtils;
+import androidx.databinding.BaseObservable;
 
-import org.json.JSONObject;
+import com.wma.library.utils.http.HttpUtils;
+
 import org.xutils.common.Callback;
 
 /**
  * create by wma
  * on 2020/10/14 0014
  */
-public class BaseModule {
+public class BaseModule extends BaseObservable {
+    public final String HOST = "http://192.168.0.56:8080";
 
     private int error_code;
 

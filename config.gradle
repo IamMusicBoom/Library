@@ -29,7 +29,7 @@ ext {
 //            material               : "1.2.0-alpha05",//material:1.2.0-alpha04
 //            library                : "2.4.0",
 //            SmartRefreshLayout     : "1.1.0",// 1.1.0-alpha-32
-//            PickerView             : "4.1.9",//4.1.4
+            PickerView             : "4.1.9",//4.1.4
 //            PhotoView              : "2.0.0",
 //            navigation_fragment    : "2.2.1",
 //            navigation_ui          : "2.2.1",
@@ -52,6 +52,7 @@ ext {
             refresh_header_two_level: "2.0.1",
             refresh_footer_ball     : "2.0.1",
             refresh_footer_classics : "2.0.1",
+            fresco:"1.13.0",
 
     ]
     dependencies = [
@@ -69,7 +70,7 @@ ext {
 //            material               : "com.google.android.material:material:${dependVersion.material}",
 //            library                : "com.nineoldandroids:library:${dependVersion.library}",
 //            SmartRefreshLayout     : "com.scwang.smartrefresh:SmartRefreshLayout:${dependVersion.SmartRefreshLayout}",
-//            PickerView             : "com.contrarywind:Android-PickerView:${dependVersion.PickerView}",
+            PickerView             : "com.contrarywind:Android-PickerView:${dependVersion.PickerView}",
 //            PhotoView              : "com.github.chrisbanes:PhotoView:${dependVersion.PhotoView}",
 //            navigation_fragment    : "androidx.navigation:navigation-fragment:${dependVersion.navigation_fragment}",
 //            navigation_ui          : "androidx.navigation:navigation-ui:${dependVersion.navigation_ui}",
@@ -93,8 +94,7 @@ ext {
             refresh_header_two_level: "com.scwang.smart:refresh-header-two-level:${dependVersion.refresh_header_two_level}",//二级刷新头
             refresh_footer_ball     : "com.scwang.smart:refresh-footer-ball:${dependVersion.refresh_footer_ball}",//球脉冲加载
             refresh_footer_classics : "com.scwang.smart:refresh-footer-classics:${dependVersion.refresh_footer_classics}",//经典加载
-
-
+            fresco:"com.facebook.fresco:fresco:${dependVersion.fresco}",
 
     ]
 

@@ -1,4 +1,4 @@
-package com.wma.library.utils;
+package com.wma.library.utils.json;
 
 import com.google.gson.Gson;
 import com.wma.library.base.BaseLoadFragment;

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.ViewDataBinding;
 
 
 import com.wma.library.log.Logger;
@@ -20,7 +21,7 @@ import java.util.List;
  * create by wma
  * on 2020/9/1 0001
  */
-public abstract class BasePermissionActivity extends BaseActivity {
+public abstract class BasePermissionActivity<B extends ViewDataBinding> extends BaseActivity<B> {
     List<String> needRequestPermissions = new ArrayList<>();
     int requestCode = 100;
     private boolean isNeedCheckPermission;
@@ -29,10 +30,8 @@ public abstract class BasePermissionActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (isNeedCheckPermission) {
-
-
             String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE};
+                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE,Manifest.permission.CAMERA};
             checkPermissions(getApplicationContext(), permissions);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if(needRequestPermissions.size()>0){

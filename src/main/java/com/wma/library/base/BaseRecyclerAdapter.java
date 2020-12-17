@@ -18,10 +18,10 @@ import java.util.List;
  * create by wma
  * on 2020/11/5 0005
  */
-public abstract class BaseRecyclerAdapter<T extends BaseModule, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseRecyclerHolder> {
+public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseRecyclerHolder> {
     final String TAG = BaseRecyclerAdapter.class.getSimpleName();
-    private List<T> mList;
-    private Context mContext;
+    public List<T> mList;
+    public Context mContext;
 
     public BaseRecyclerAdapter(List<T> mList, Context mContext) {
         this.mList = mList;
@@ -38,7 +38,6 @@ public abstract class BaseRecyclerAdapter<T extends BaseModule, B extends ViewDa
 
     @Override
     public void onBindViewHolder(@NonNull final BaseRecyclerHolder holder, int position) {
-        Logger.d(TAG, "onBindViewHolder: holder.getBinding() = " + holder.getBinding());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +65,7 @@ public abstract class BaseRecyclerAdapter<T extends BaseModule, B extends ViewDa
 
     OnItemClickListener listener;
 
-    public interface OnItemClickListener<T extends BaseModule> {
+    public interface OnItemClickListener<T> {
         void onItemClickListener(int position, T data);
     }
 

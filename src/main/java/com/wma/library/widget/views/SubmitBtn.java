@@ -62,6 +62,7 @@ public class SubmitBtn extends View {
     private String mSuccessText, mFailText;
     private AnimatorSet mLoadingAnimSet;
     private AnimatorSet mLoadFinishSet;
+    private String mCurText;
 
     public SubmitBtn(Context context) {
         this(context, null);
@@ -86,6 +87,7 @@ public class SubmitBtn extends View {
         mFailText = ta.getString(R.styleable.SubmitBtn_FailHint);
         mFailText = TextUtils.isEmpty(mFailText) ? "失败" : mFailText;
         mLoadingColor = ta.getColor(R.styleable.SubmitBtn_TextColor, Color.WHITE);
+        mCurText = mText;
         ta.recycle();
         init();
     }
@@ -161,7 +163,7 @@ public class SubmitBtn extends View {
             canvas.drawText(mText, mWidth / 2, mHeight / 2 + mTextHeight / 2, mTextPaint);
         } else {
             canvas.drawRoundRect(mRectLeft, 0, mRectRight, mHeight, mRadius, mRadius, mPaint);
-            canvas.drawText(mText, mWidth / 2, mHeight / 2 + mTextHeight / 2, mTextPaint);
+            canvas.drawText(mCurText, mWidth / 2, mHeight / 2 + mTextHeight / 2, mTextPaint);
         }
     }
 
@@ -190,6 +192,7 @@ public class SubmitBtn extends View {
     }
     public void setFailText(String text){
         mFailText = text;
+
     }
 
     public int getCurStatus(){
@@ -338,8 +341,10 @@ public class SubmitBtn extends View {
         });
         ValueAnimator colorAnim = null;
         if (isSuccess) {
+            mCurText = mSuccessText;
             colorAnim = ValueAnimator.ofArgb(mBgColor, mSuccessColor);
         } else {
+            mCurText = mFailText;
             colorAnim = ValueAnimator.ofArgb(mBgColor, mFailColor);
         }
         colorAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

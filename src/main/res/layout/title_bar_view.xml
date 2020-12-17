@@ -40,6 +40,7 @@
                 android:id="@+id/title_mid_tv"
                 style="@style/TitleTextView"
                 android:layout_width="0dp"
+                android:gravity="center"
                 app:layout_constraintHorizontal_weight="1"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
@@ -70,6 +71,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingStart="15dp"
             android:background="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,14 +82,14 @@
                 style="@style/TitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:visibility="gone" />
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/title_right_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@mipmap/ic_go"
-                android:visibility="gone" />
+                android:visibility="invisible" />
 
         </LinearLayout>
 

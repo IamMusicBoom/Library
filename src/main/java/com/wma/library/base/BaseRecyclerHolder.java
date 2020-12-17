@@ -19,9 +19,9 @@ public class BaseRecyclerHolder<B extends ViewDataBinding> extends RecyclerView.
     B mBinding;
     public BaseRecyclerHolder(@NonNull View itemView) {
         super(itemView);
+        mBinding = DataBindingUtil.bind(itemView);
     }
     public B getBinding(){
-        mBinding = DataBindingUtil.bind(itemView);
         return  mBinding;
     }
 }
