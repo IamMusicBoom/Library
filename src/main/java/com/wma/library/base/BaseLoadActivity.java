@@ -175,6 +175,7 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
                 mSmartRefreshLayout.finishLoadMore();
             }
         }
+        hideLoading();
     }
 
 
@@ -187,7 +188,7 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
     }
 
     public void handleByFail(String msg) {
-
+        showToast(msg);
     }
 
     @Override

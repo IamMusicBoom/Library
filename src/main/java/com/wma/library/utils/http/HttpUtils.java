@@ -10,6 +10,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +42,25 @@ public class HttpUtils {
         if (parameters != null && parameters.size() > 0) {
             for (String key : parameters.keySet()) {
                 entity.addBodyParameter(key, parameters.get(key));
+            }
+        }
+
+
+        entity.setMultipart(true);
+        entity.setAutoResume(true);// 置是否在下载是自动断点续传
+        entity.setAutoRename(true);
+        entity.setConnectTimeout(60000);
+        List<File> files = request.getFile();
+        if (files != null && files.size() > 0) {
+            for (int i = 0; i < files.size(); i++) {
+                File file = files.get(i);
+                if (file.exists()) {
+
+                    entity.setMultipart(true);
+                    entity.setAutoResume(true);// 置是否在下载是自动断点续传
+                    entity.setAutoRename(true);
+                    entity.addBodyParameter(file.getName(), file);
+                }
             }
         }
         Callback.CommonCallback xUtilsCallBack = new Callback.CommonCallback<String>() {
@@ -76,7 +96,6 @@ public class HttpUtils {
     }
 
 
-
     public Callback.Cancelable uploadFile(final Request request, final HttpProgressListener callback) {
         if (request == null) {
             Logger.e(TAG, "request: 请求对象为空");
@@ -103,8 +122,14 @@ public class HttpUtils {
                 entity.addBodyParameter(key, parameters.get(key));
             }
         }
-        File file = request.getFile();
-        entity.addBodyParameter("file", file);
+
+        List<File> files = request.getFile();
+        if (files != null && files.size() > 0) {
+            for (int i = 0; i < files.size(); i++) {
+                File file = files.get(i);
+                entity.addBodyParameter(file.getName(), file);
+            }
+        }
         Callback.ProgressCallback xUtilsCallback = new Callback.ProgressCallback<String>() {
             @Override
             public void onWaiting() {

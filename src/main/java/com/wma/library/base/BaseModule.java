@@ -11,7 +11,7 @@ import org.xutils.common.Callback;
  * on 2020/10/14 0014
  */
 public class BaseModule extends BaseObservable {
-    public final String HOST = "http://192.168.0.56:8080";
+    public static final String HOST = "http://192.168.0.62:8080";
 
     private int error_code;
 

@@ -7,7 +7,7 @@ ext {
     android = [
             buildToolsVersion: "29.0.2",
             compileSdkVersion: 29,
-            minSdkVersion    : 23,
+            minSdkVersion    : 24,
             targetSdkVersion : 29,
             versionCode      : 1,
             versionName      : "1.0"
@@ -53,6 +53,7 @@ ext {
             refresh_footer_ball     : "2.0.1",
             refresh_footer_classics : "2.0.1",
             fresco:"1.13.0",
+            glide_transformations:"4.0.1",
 
     ]
     dependencies = [
@@ -95,6 +96,7 @@ ext {
             refresh_footer_ball     : "com.scwang.smart:refresh-footer-ball:${dependVersion.refresh_footer_ball}",//球脉冲加载
             refresh_footer_classics : "com.scwang.smart:refresh-footer-classics:${dependVersion.refresh_footer_classics}",//经典加载
             fresco:"com.facebook.fresco:fresco:${dependVersion.fresco}",
+            glide_transformations:"jp.wasabeef:glide-transformations:${dependVersion.glide_transformations}",
 
     ]
 

@@ -51,7 +51,8 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
     public static void chooseFile(Activity activity, Bundle bundle) {
         Intent intent = new Intent(activity, SelectActivity.class);
         intent.putExtra(KEY_BUNDLE, bundle);
-        activity.startActivityForResult(intent, SelectDialog.REQUEST_CODE);
+        int requestCode = bundle.getInt(SelectDialog.KEY_REQUEST_CODE, SelectDialog.REQUEST_CODE);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     @Override

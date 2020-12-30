@@ -33,6 +33,8 @@ public class SelectDialog extends DialogFragment implements View.OnClickListener
     public static final String KEY_TYPE = "KEY_TYPE";
     public static final String KEY_LIMIT = "KEY_LIMIT";
     public static final String KEY_SELECT_LIST = "KEY_SELECT_LIST";
+    public static final String KEY_REQUEST_CODE = "KEY_REQUEST_CODE";
+
 
 
     DialogChooseFileTypeBinding mBinding;
@@ -147,6 +149,7 @@ public class SelectDialog extends DialogFragment implements View.OnClickListener
             Bundle bundle = new Bundle();
             bundle.putString(KEY_TYPE, type);
             bundle.putInt(KEY_LIMIT, limit);
+            bundle.putInt(KEY_REQUEST_CODE,requestCode);
             dialog.setArguments(bundle);
             return dialog;
         }

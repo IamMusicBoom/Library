@@ -3,21 +3,18 @@ package com.wma.library.select;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import androidx.cardview.widget.CardView;
 import androidx.databinding.BindingAdapter;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.wma.library.R;
 import com.wma.library.base.BaseRecyclerAdapter;
 import com.wma.library.base.BaseRecyclerHolder;
 import com.wma.library.databinding.ItemFileBinding;
-import com.wma.library.log.Logger;
 import com.wma.library.utils.ToastUtils;
+import com.wma.library.utils.gilde.GlideUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,13 +86,14 @@ public class FileAdapter extends BaseRecyclerAdapter<FileItem, ItemFileBinding> 
 
     @BindingAdapter(value = {"showImageByUri","mimeType"}, requireAll = true)
     public static void showImageByUri(ImageView imageView, String imgPath, String mimeType) {
+        DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
         if(TextUtils.isEmpty(mimeType)){
-            Glide.with(imageView).load(R.mipmap.ic_unknown_file).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_image_error).into(imageView);
+            GlideUtils.getInstance().loadImage(imageView.getContext(),R.mipmap.ic_unknown_file,imageView);
         }else{
             if(mimeType.contains("text")){
-                Glide.with(imageView).load(R.mipmap.ic_text_file).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_image_error).into(imageView);
+                GlideUtils.getInstance().loadImage(imageView.getContext(),R.mipmap.ic_text_file,imageView);
             }else{
-                Glide.with(imageView).load(imgPath).placeholder(R.mipmap.ic_loading).error(R.mipmap.ic_image_error).into(imageView);
+                GlideUtils.getInstance().loadImage(imageView.getContext(),imgPath,imageView);
 
             }
         }

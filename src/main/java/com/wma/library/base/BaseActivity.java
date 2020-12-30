@@ -1,17 +1,10 @@
 package com.wma.library.base;
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
@@ -22,19 +15,15 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.wma.library.R;
 import com.wma.library.impl.IBaseImpl;
-import com.wma.library.log.Logger;
-import com.wma.library.utils.DPUtils;
-import com.wma.library.utils.LoadingUtils;
+import com.wma.library.utils.LoadingDialog;
 import com.wma.library.utils.ScreenUtils;
 import com.wma.library.utils.ToastUtils;
 import com.wma.library.widget.titlebar.OnBaseTitleBarClickListener;
 import com.wma.library.widget.titlebar.TitleBar;
 
-import org.xutils.common.Callback;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -172,6 +161,14 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
 
     public void showToast(int msgId) {
         ToastUtils.showToast(this, msgId);
+    }
+
+    public void showLoading(String msg) {
+        LoadingDialog.getInstance().showLoading(this, msg);
+    }
+
+    public void hideLoading() {
+        LoadingDialog.getInstance().hideLoading();
     }
 
     @Override

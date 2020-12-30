@@ -3,6 +3,7 @@ package com.wma.library.utils.http;
 import org.xutils.http.HttpMethod;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +39,10 @@ public class Request {
     /**
      * 附件
      */
-    File file;
+    List<File> files;
+
+
+    boolean isMultipart;
 
 
     public Request( HttpMethod method,String url, Map<String, String> parameters, String from) {
@@ -81,11 +85,19 @@ public class Request {
         this.method = method;
     }
 
-    public File getFile() {
-        return file;
+    public List<File> getFile() {
+        return files;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
+    public boolean isMultipart() {
+        return isMultipart;
+    }
+
+    public void setMultipart(boolean multipart) {
+        isMultipart = multipart;
     }
 }

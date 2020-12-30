@@ -46,7 +46,9 @@ dependencies {
     api rootProject.ext.dependencies.refresh_header_two_level//二级刷新头
     api rootProject.ext.dependencies.refresh_footer_ball//球脉冲加载
     api rootProject.ext.dependencies.refresh_footer_classics//经典加载
-    api rootProject.ext.dependencies.fresco
+//    api rootProject.ext.dependencies.fresco
     api rootProject.ext.dependencies.PickerView
+
+    api rootProject.ext.dependencies.glide_transformations
 
 }
