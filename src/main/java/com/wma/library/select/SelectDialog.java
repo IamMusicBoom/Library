@@ -3,6 +3,7 @@ package com.wma.library.select;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.wma.library.log.Logger;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * create by wma
@@ -28,7 +31,9 @@ import java.util.ArrayList;
  */
 public class SelectDialog extends DialogFragment implements View.OnClickListener {
     final String TAG = SelectDialog.class.getSimpleName();
-    public static final int REQUEST_CODE = 200;// 请求码
+    public static final int REQUEST_SELECT_CODE = 200;// 请求码
+    public static final int REQUEST_CAPTURE_CODE = 201;// 请求码
+
 
     public static final String KEY_TYPE = "KEY_TYPE";
     public static final String KEY_LIMIT = "KEY_LIMIT";
@@ -86,7 +91,8 @@ public class SelectDialog extends DialogFragment implements View.OnClickListener
         if (v == mBinding.tvChooseFromLocal) {
             SelectActivity.chooseFile(getActivity(), getArguments());
         } else if (v == mBinding.tvTakePicture) {
-            Logger.d(TAG, "onClick: 照相");
+            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(captureIntent, REQUEST_CAPTURE_CODE);
         }
         dismiss();
     }

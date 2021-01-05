@@ -3,28 +3,20 @@ package com.wma.library.select;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wma.library.R;
 import com.wma.library.base.BaseActivity;
 import com.wma.library.databinding.ActivityChooseFileBinding;
-import com.wma.library.log.Logger;
-import com.wma.library.utils.FileUtils;
 import com.wma.library.utils.PermissionUtils;
 
 import java.util.ArrayList;
@@ -51,7 +43,7 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
     public static void chooseFile(Activity activity, Bundle bundle) {
         Intent intent = new Intent(activity, SelectActivity.class);
         intent.putExtra(KEY_BUNDLE, bundle);
-        int requestCode = bundle.getInt(SelectDialog.KEY_REQUEST_CODE, SelectDialog.REQUEST_CODE);
+        int requestCode = bundle.getInt(SelectDialog.KEY_REQUEST_CODE, SelectDialog.REQUEST_SELECT_CODE);
         activity.startActivityForResult(intent, requestCode);
     }
 
