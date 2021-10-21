@@ -18,7 +18,7 @@ import java.util.List;
  * create by wma
  * on 2020/11/5 0005
  */
-public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseRecyclerHolder> {
+public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends RecyclerView.Adapter<BaseRecyclerHolder<B>> {
     final String TAG = BaseRecyclerAdapter.class.getSimpleName();
     public List<T> mList;
     public Context mContext;
@@ -30,14 +30,13 @@ public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends 
 
     @NonNull
     @Override
-    public BaseRecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseRecyclerHolder<B> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(getLayoutId(), parent, false);
-        BaseRecyclerHolder holder = new BaseRecyclerHolder<B>(view);
-        return holder;
+        return new BaseRecyclerHolder<B>(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final BaseRecyclerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BaseRecyclerHolder<B> holder, int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +45,7 @@ public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends 
                 }
             }
         });
-        bindData((B) holder.getBinding(), mList.get(position), holder, position);
+        bindData(holder.getBinding(), mList.get(position), holder, position);
     }
 
     @Override
@@ -54,16 +53,16 @@ public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends 
         return mList.size();
     }
 
-    public abstract void bindData(B binding, T data, BaseRecyclerHolder holder, int position);
+    public abstract void bindData(B binding, T data, BaseRecyclerHolder<B> holder, int position);
 
     public abstract int getLayoutId();
 
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener<T> listener) {
         this.listener = listener;
     }
 
-    OnItemClickListener listener;
+    OnItemClickListener<T> listener;
 
     public interface OnItemClickListener<T> {
         void onItemClickListener(int position, T data);
@@ -124,9 +123,8 @@ public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends 
      * @param item
      */
     public void removeData(int position, T item) {
-        int start = position;
         mList.remove(position);
-        notifyItemRangeRemoved(start, 1);
+        notifyItemRangeRemoved(position, 1);
     }
 
     /**
@@ -135,9 +133,8 @@ public abstract class BaseRecyclerAdapter<T, B extends ViewDataBinding> extends 
      * @param list
      */
     public void removeData(int position, List<T> list) {
-        int start = position;
         mList.removeAll(list);
-        notifyItemRangeRemoved(start, list.size());
+        notifyItemRangeRemoved(position, list.size());
     }
 
     /**
