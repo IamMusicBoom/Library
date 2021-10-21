@@ -2,7 +2,7 @@
 // （1） 同步 ModuleBase 模块
 // （2） 找到该文件绝对路径 如：'F:\\work_space\\lib\\ModuleBase\\config.gradle'或者'../../lib/ModuleBase/config.gradle'
 // （3） 需要该文件的项目根目录的build.gradle的顶部添加：apply from:'F:\\work_space\\lib\\ModuleBase\\config.gradle'
-// （4） 如有修改或添加，直接在这里操作然后用 git 提交至对应的分支
+// （4） 如有修改或添加，直接在这里操作然后用 git 提交至对应的分支 加点注释测试以下 --WMA
 ext {
     android = [
             buildToolsVersion: "29.0.2",
