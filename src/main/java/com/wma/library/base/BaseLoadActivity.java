@@ -184,7 +184,6 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
     }
 
     public void handleBySuccess(List<T> result) {
-
     }
 
     public void handleByFail(String msg) {
@@ -204,5 +203,17 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
     @Override
     public void fail(String msg) {
         handleByFail(msg);
+    }
+
+    public void resetUI() {
+        if (mSmartRefreshLayout != null) {
+            if (mSmartRefreshLayout.isRefreshing()) {
+                mSmartRefreshLayout.finishRefresh();
+            }
+            if (mSmartRefreshLayout.isLoading()) {
+                mSmartRefreshLayout.finishLoadMore();
+            }
+        }
+        hideLoading();
     }
 }

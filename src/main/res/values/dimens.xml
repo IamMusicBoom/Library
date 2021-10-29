@@ -2,4 +2,5 @@
 <resources>
     <dimen name="TextSize_15sp">15sp</dimen>
     <dimen name="TextViewPadding">10dp</dimen>
+    <dimen name="Normal_Margin">15dp</dimen>
 </resources>

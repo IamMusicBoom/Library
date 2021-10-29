@@ -20,9 +20,9 @@ import java.util.List;
  * create by wma
  * on 2020/11/5 0005
  */
-public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataBinding> extends BaseLoadActivity<T, B> {
+public abstract class BaseListActivity<T extends BaseModule, B extends ViewDataBinding> extends BaseLoadActivity<T, B> {
 
-    public BaseRecyclerAdapter mAdapter;
+    public BaseRecyclerAdapter<T, B> mAdapter;
     public List<T> mList = new ArrayList<>();
     public RecyclerView mRecyclerView;
 
@@ -32,26 +32,25 @@ public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataB
     public void init(Bundle savedInstanceState) {
         super.init(savedInstanceState);
         mAdapter = getAdapter();
-        mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.left = 0;
-                outRect.top = 15;
-                outRect.right = 0;
-                outRect.bottom = 15;
+        mRecyclerView = initRecyclerView();
+        if (mRecyclerView == null) {
+            mRecyclerView = findViewById(R.id.recycler_view);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                    super.getItemOffsets(outRect, view, parent, state);
+                    outRect.left = 0;
+                    outRect.top = 15;
+                    outRect.right = 0;
+                    outRect.bottom = 15;
 
-            }
-        });
+                }
+            });
+        }
         mRecyclerView.setAdapter(mAdapter);
     }
 
-
-    public void addList(List<T> list) {
-        mAdapter.addData(list);
-    }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -68,6 +67,12 @@ public abstract class BaseListActivity< T extends BaseModule,B extends ViewDataB
     }
 
     public abstract BaseRecyclerAdapter getAdapter();
+
+    public RecyclerView initRecyclerView() {
+        return null;
+
+    }
+
 
     @Override
     protected SmartRefreshLayout getSmartRefreshLayout() {

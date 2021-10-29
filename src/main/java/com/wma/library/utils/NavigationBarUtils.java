@@ -9,7 +9,7 @@ import android.view.ViewTreeObserver;
 
 import java.lang.reflect.Method;
 
-public class NavigationBarUtil {
+public class NavigationBarUtils {
     /*
        使用：
        if (NavigationBarUtil.checkDeviceHasNavigationBar(this)) {
@@ -18,14 +18,14 @@ public class NavigationBarUtil {
         }
     */
     public static void assistActivity(View content) {
-        new NavigationBarUtil(content);
+        new NavigationBarUtils(content);
     }
 
     private View mChildOfContent;
     private int usableHeightPrevious;
     private ViewGroup.LayoutParams frameLayoutParams;
 
-    private NavigationBarUtil(View content) {
+    private NavigationBarUtils(View content) {
         mChildOfContent = content;
         mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
