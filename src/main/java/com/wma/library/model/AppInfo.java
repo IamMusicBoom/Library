@@ -8,11 +8,20 @@ import com.wma.library.base.BaseModule;
  * Created by WMA on 2021/10/25.
  */
 public class AppInfo extends BaseModule {
+    private String packageName;
     private String appName;
     private String versionName;
     private Drawable appIcon;
     private boolean isSystemApp;
     private String[] permissions;
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
 
     public String getAppName() {
         return appName;

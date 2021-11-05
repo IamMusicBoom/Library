@@ -7,6 +7,9 @@ import androidx.databinding.ViewDataBinding;
 
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.header.MaterialHeader;
+import com.scwang.smart.refresh.header.TwoLevelHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshFooter;
 import com.scwang.smart.refresh.layout.api.RefreshHeader;
@@ -29,12 +32,12 @@ import java.util.List;
  */
 public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataBinding> extends BaseActivity<B> implements HttpCallbackListener, OnRefreshListener, OnLoadMoreListener, ResultHandleListener<T> {
     private SmartRefreshLayout mSmartRefreshLayout;
-
+    private boolean isEnableRefresh,isEnableLoadMore;
     @Override
     public void init(Bundle savedInstanceState) {
         mSmartRefreshLayout = getSmartRefreshLayout();
-        setEnableRefresh(enableRefresh());
-        setEnableLoadMore(enableLoadMore());
+        setEnableRefresh(true);
+        setEnableLoadMore(true);
         if (isAutoRefresh()) {
             autoRefresh();
         }
@@ -45,6 +48,9 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
     protected abstract void loadData();
 
     public void autoRefresh() {
+        if (!isEnableRefresh) {
+            setEnableRefresh(true);
+        }
         if (mSmartRefreshLayout != null) {
             mSmartRefreshLayout.autoRefresh();
         }
@@ -56,6 +62,7 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
      * @return
      */
     public void setEnableRefresh(boolean refresh) {
+        isEnableRefresh = refresh;
         if (mSmartRefreshLayout != null) {
             mSmartRefreshLayout.setEnableRefresh(refresh);
             if (refresh) {
@@ -71,6 +78,7 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
      * @return
      */
     public void setEnableLoadMore(boolean loadMore) {
+        isEnableLoadMore = loadMore;
         if (mSmartRefreshLayout != null) {
             mSmartRefreshLayout.setEnableLoadMore(loadMore);
             if (loadMore) {
@@ -80,6 +88,13 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
         }
     }
 
+    public boolean isEnableRefresh() {
+        return isEnableRefresh;
+    }
+
+    public boolean isEnableLoadMore() {
+        return isEnableLoadMore;
+    }
 
     /**
      * 是否自动刷新
@@ -87,24 +102,6 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
      * @return
      */
     public boolean isAutoRefresh() {
-        return true;
-    }
-
-    /**
-     * 是否可以刷新
-     *
-     * @return
-     */
-    protected boolean enableRefresh() {
-        return true;
-    }
-
-    /**
-     * 是否可以加载更多
-     *
-     * @return
-     */
-    protected boolean enableLoadMore() {
         return true;
     }
 
@@ -124,7 +121,7 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
      * @return
      */
     protected RefreshHeader getRefreshHeader() {
-        return new BezierRadarHeader(this);
+        return new MaterialHeader(this);
     }
 
     /**

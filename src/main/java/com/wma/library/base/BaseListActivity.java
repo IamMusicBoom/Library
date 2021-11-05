@@ -20,10 +20,10 @@ import java.util.List;
  * create by wma
  * on 2020/11/5 0005
  */
-public abstract class BaseListActivity<T extends BaseModule, B extends ViewDataBinding> extends BaseLoadActivity<T, B> {
+public abstract class BaseListActivity<MODEL extends BaseModule, ACT extends ViewDataBinding, ITEM extends ViewDataBinding> extends BaseLoadActivity<MODEL, ACT> {
 
-    public BaseRecyclerAdapter<T, B> mAdapter;
-    public List<T> mList = new ArrayList<>();
+    public BaseRecyclerAdapter<MODEL, ITEM> mAdapter;
+    public List<MODEL> mList = new ArrayList<>();
     public RecyclerView mRecyclerView;
 
     public int mCurPage = 1;
@@ -66,7 +66,7 @@ public abstract class BaseListActivity<T extends BaseModule, B extends ViewDataB
         loadData();
     }
 
-    public abstract BaseRecyclerAdapter getAdapter();
+    public abstract BaseRecyclerAdapter<MODEL, ITEM> getAdapter();
 
     public RecyclerView initRecyclerView() {
         return null;
