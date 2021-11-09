@@ -31,11 +31,12 @@ public class AppUtils {
             appInfo.setPackageName(packageInfo.applicationInfo.packageName);
             appInfo.setAppName(packageInfo.applicationInfo.loadLabel(pm).toString());
             appInfo.setAppIcon(packageInfo.applicationInfo.loadIcon(pm));
+            appInfo.setVersionName(packageInfo.versionName);
             if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                 isSystemApp = true;
             }
             appInfo.setSystemApp(isSystemApp);
-            appInfo.setPermissions(packageInfo.requestedPermissions);
+            appInfo.setTotalPermissions(packageInfo.requestedPermissions);
             if (type == TYPE_SYSTEM_APP) {
                 if (appInfo.isSystemApp()) {
                     appInfos.add(appInfo);

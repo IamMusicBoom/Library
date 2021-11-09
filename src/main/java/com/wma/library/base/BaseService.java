@@ -11,4 +11,10 @@ import androidx.annotation.Nullable;
  * on 2020/10/23 0023
  */
 public abstract class BaseService extends Service {
+    public static String TAG;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        TAG = this.getClass().getSimpleName();
+    }
 }

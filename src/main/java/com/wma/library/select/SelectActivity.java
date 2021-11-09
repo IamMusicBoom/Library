@@ -128,7 +128,7 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
 
     private void showNoticeDialog(final List<String> notGrandPermission) {
         StringBuilder message = new StringBuilder();
-        message.append("您还需要一下权限: ").append("\n");
+        message.append("您还需要以下权限: ").append("\n");
         for (int i = 0; i < notGrandPermission.size(); i++) {
             String permission = notGrandPermission.get(i);
             String chineseByPermission = mPermissionUtils.getChineseByPermission(permission);

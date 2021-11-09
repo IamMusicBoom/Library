@@ -5,14 +5,18 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
+import android.widget.RemoteViews;
+
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.wma.library.R;
+
 
 
 /**
@@ -21,6 +25,9 @@ import com.wma.library.R;
  */
 public class NotificationUtils {
 
+    public static final int FOREGROUND_SERVICE_NOTIFICATION_ID = 1000;
+    private static final String FOREGROUND_SERVICE_CHANNEL_ID = "1000";
+    private static final String FOREGROUND_SERVICE_NAME = "FOREGROUND_SERVICE_NAME";
     private NotificationManager mManager;
     private String mChannelImportanceId = "9998";
     private String mChannelDownloadId = "9997";
@@ -35,11 +42,18 @@ public class NotificationUtils {
     private int smallIcon = R.mipmap.ic_launcher;
     private Bitmap largeIcon;
 
-    public NotificationUtils(Context context) {
-        this.mContext = context;
-        this.mManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    private NotificationUtils() {
+
     }
 
+    public NotificationUtils(Context context, String contentText, String contentTitle, int smallIcon, Bitmap largeIcon) {
+        this.mContext = context;
+        this.mManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        this.contentText = contentText;
+        this.contentTitle = contentTitle;
+        this.smallIcon = smallIcon;
+        this.largeIcon = largeIcon;
+    }
 
     /**
      * 创建一个重要的频道
@@ -160,7 +174,7 @@ public class NotificationUtils {
         builder.setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .setSmallIcon(R.mipmap.ic_back)
+                .setSmallIcon(R.drawable.ic_back)
                 .setLargeIcon(largeIcon)
                 .setAutoCancel(false)
                 .setOnlyAlertOnce(true)
@@ -191,5 +205,33 @@ public class NotificationUtils {
             builder.setProgress(0, 0, false);
         }
         showNotification(notificationId, builder.build());
+    }
+
+    public Notification createForegroundNotification(RemoteViews remoteView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createImportanceChannel(FOREGROUND_SERVICE_CHANNEL_ID, FOREGROUND_SERVICE_NAME);
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, FOREGROUND_SERVICE_CHANNEL_ID);
+        if (remoteView != null) {
+            builder.setContent(remoteView)
+                    .setSmallIcon(smallIcon);
+        } else {
+            builder.setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setContentTitle(contentTitle)
+                    .setContentText(contentText)
+                    .setSmallIcon(smallIcon)
+                    .setLargeIcon(largeIcon)
+                    .setAutoCancel(false)
+                    .setOnlyAlertOnce(true)
+                    .setVibrate(new long[]{1000, 500, 2000})
+                    .setAutoCancel(false)
+                    .setGroup(mChannelGroupId)
+                    .setLights(Color.RED, 1000, 1000)
+                    .setShowWhen(true)
+                    .setWhen(System.currentTimeMillis());
+        }
+
+        Notification build = builder.build();
+        return build;
     }
 }

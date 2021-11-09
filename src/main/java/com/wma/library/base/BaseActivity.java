@@ -48,7 +48,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         mContext = this;
         beforeSetContentView();
         setContentView(generateRootView());
-        immerseStatus(true, false, ContextCompat.getColor(mContext, R.color.status_bar_color), 0);
+        immerseStatus(false, false, ContextCompat.getColor(mContext, R.color.status_bar_color), 0);
         init(savedInstanceState);
 
     }

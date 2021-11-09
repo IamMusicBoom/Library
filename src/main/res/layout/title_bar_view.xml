@@ -12,20 +12,21 @@
 
         <LinearLayout
             android:id="@+id/title_left_ll"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:background="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/title_mid_tv">
 
             <ImageView
                 android:id="@+id/title_left_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_back" />
+                android:src="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/title_left_tv"
@@ -39,14 +40,14 @@
             <TextView
                 android:id="@+id/title_mid_tv"
                 style="@style/TitleTextView"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:gravity="center"
                 app:layout_constraintHorizontal_weight="1"
                 android:layout_height="match_parent"
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_centerInParent="true"
-                app:layout_constraintStart_toEndOf="@id/title_left_ll"
-                app:layout_constraintEnd_toStartOf="@id/title_right_ll"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -57,7 +58,6 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:src="@mipmap/ic_go"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,15 +67,16 @@
 
         <LinearLayout
             android:id="@+id/title_right_ll"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|end"
             android:orientation="horizontal"
             android:paddingStart="15dp"
             android:background="?android:attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/title_mid_tv">
 
             <TextView
                 android:id="@+id/title_right_tv"
@@ -88,7 +89,7 @@
                 android:id="@+id/title_right_img"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_go"
+                android:src="@drawable/ic_go"
                 android:visibility="invisible" />
 
         </LinearLayout>
