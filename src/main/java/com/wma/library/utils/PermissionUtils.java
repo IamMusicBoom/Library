@@ -3,11 +3,17 @@ package com.wma.library.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
+import com.wma.library.base.BaseApplication;
 import com.wma.library.log.Logger;
 
 import java.util.ArrayList;
@@ -55,19 +61,20 @@ import java.util.List;
  */
 public class PermissionUtils {
 
+    public static final int REQUEST_CODE_ALERT_WINDOW = 10011;
+
     /**
      * 敏感权限
      */
-    private String[] dangerousPermissions = {"READ_CALENDAR", "WRITE_CALENDAR", "CAMERA", "READ_CONTACTS", "WRITE_CONTACTS", "GET_ACCOUNTS", "ACCESS_FINE_LOCATION"
+    private static String[] dangerousPermissions = {"READ_CALENDAR", "WRITE_CALENDAR", "CAMERA", "READ_CONTACTS", "WRITE_CONTACTS", "GET_ACCOUNTS", "ACCESS_FINE_LOCATION"
             , "ACCESS_COARSE_LOCATION", "RECORD_AUDIO", "READ_PHONE_STATE", "CALL_PHONE", "READ_CALL_LOG", "WRITE_CALL_LOG", "ADD_VOICEMAIL", "USE_SIP", "PROCESS_OUTGOING_CALLS"
             , "BODY_SENSORS", "SEND_SMS", "RECEIVE_SMS", "READ_SMS", "RECEIVE_WAP_PUSH", "RECEIVE_MMS", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"};
 
-    private Context mContext;
 
-    private final String TAG = PermissionUtils.class.getSimpleName();
 
-    private PermissionUtils(Context context) {
-        mContext = context;
+    private static final String TAG = PermissionUtils.class.getSimpleName();
+
+    private PermissionUtils() {
     }
 
     /**
@@ -76,15 +83,15 @@ public class PermissionUtils {
      * @param permission
      * @return
      */
-    public boolean havePermission(String permission) {
+    public static boolean havePermission(String permission) {
         return havePermission(permission, "");
     }
 
-    public boolean havePermission(String permission, String packageName) {
+    public static boolean havePermission(String permission, String packageName) {
         if (TextUtils.isEmpty(packageName)) {
-            packageName = mContext.getPackageName();
+            packageName = BaseApplication.getContext().getPackageName();
         }
-        PackageManager pm = mContext.getPackageManager();
+        PackageManager pm = BaseApplication.getContext().getPackageManager();
         int i = pm.checkPermission(permission, packageName);
         return PackageManager.PERMISSION_GRANTED == i;
     }
@@ -95,7 +102,7 @@ public class PermissionUtils {
      * @param permissions
      * @return
      */
-    public List<String> checkIsPermissionAllGranted(String... permissions) {
+    public static List<String> checkIsPermissionAllGranted(String... permissions) {
         List<String> notGrantedPermissions = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {
             String permission = permissions[i];
@@ -114,15 +121,15 @@ public class PermissionUtils {
      * @param permissions
      * @return
      */
-    public boolean isAllPermissionGranted(String... permissions) {
+    public static boolean isAllPermissionGranted(String... permissions) {
         List<String> list = checkIsPermissionAllGranted(permissions);
         return list.size() == 0;
     }
 
 
-    public static PermissionUtils getInstance(Context context) {
-        return new PermissionUtils(context);
-    }
+//    public static PermissionUtils getInstance(Context context) {
+//        return new PermissionUtils(context);
+//    }
 
     /**
      * 动态申请权限
@@ -131,7 +138,7 @@ public class PermissionUtils {
      * @param list
      * @param requestcode
      */
-    public void requestPermissions(Activity activity, List<String> list, int requestcode) {
+    public static void requestPermissions(Activity activity, List<String> list, int requestcode) {
         String[] permissions = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             permissions[i] = list.get(i);
@@ -145,7 +152,7 @@ public class PermissionUtils {
      * @param permissions
      * @param grantResults
      */
-    public List<String> requestResult(String[] permissions, int[] grantResults) {
+    public static List<String> requestResult(String[] permissions, int[] grantResults) {
         List<String> notGrantedPermissions = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {
             Logger.d(TAG, "requestResult: permission = " + permissions[i] + " grant = " + grantResults[i]);
@@ -162,7 +169,7 @@ public class PermissionUtils {
      * @param permission
      * @return
      */
-    public String getChineseByPermission(String permission) {
+    public static String getChineseByPermission(String permission) {
         if (Manifest.permission.CAMERA.equalsIgnoreCase(permission)) {
             return "相机";
         } else if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equalsIgnoreCase(permission)) {
@@ -221,7 +228,7 @@ public class PermissionUtils {
      * @param permission
      * @return
      */
-    public boolean isDangerousPermission(String permission) {
+    public static boolean isDangerousPermission(String permission) {
         if (TextUtils.isEmpty(permission)) {
             return false;
         }
@@ -231,5 +238,29 @@ public class PermissionUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 检查是否有悬浮窗权限
+     * @return
+     */
+    public static boolean isAlertWindowGranted(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.canDrawOverlays(BaseApplication.getContext());
+        }
+        return true;
+    }
+
+    /**
+     * 申请悬浮窗权限
+     * @param activity
+     */
+    public static void requestAlertWindowPermission(Activity activity){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            intent.setData(Uri.parse("package:" + BaseApplication.getContext().getPackageName()));
+            activity.startActivityForResult(intent, REQUEST_CODE_ALERT_WINDOW);
+        }
+
     }
 }

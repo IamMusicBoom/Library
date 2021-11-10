@@ -31,7 +31,6 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
     public static final int REQUEST_PERMISSION = 50;
     public static final String KEY_BUNDLE = "KEY_BUNDLE";
     String[] needPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-    PermissionUtils mPermissionUtils;
     private String mSelectType;
     private int mLimit;
     FileAdapter mAdapter;
@@ -75,13 +74,12 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
 
             mSelectList = bundle.getParcelableArrayList(SelectDialog.KEY_SELECT_LIST);
         }
-        mPermissionUtils = PermissionUtils.getInstance(getApplicationContext());
-        boolean allPermissionGranted = mPermissionUtils.isAllPermissionGranted(needPermissions);
+        boolean allPermissionGranted = PermissionUtils.isAllPermissionGranted(needPermissions);
         if (allPermissionGranted) {
             queryMedia();
         } else {
-            List<String> list = mPermissionUtils.checkIsPermissionAllGranted(needPermissions);
-            mPermissionUtils.requestPermissions(this, list, REQUEST_PERMISSION);
+            List<String> list = PermissionUtils.checkIsPermissionAllGranted(needPermissions);
+            PermissionUtils.requestPermissions(this, list, REQUEST_PERMISSION);
         }
 
         mBinding.tvFinish.setOnClickListener(this);
@@ -117,7 +115,7 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        List<String> notGrandPermission = mPermissionUtils.requestResult(permissions, grantResults);
+        List<String> notGrandPermission = PermissionUtils.requestResult(permissions, grantResults);
         if (notGrandPermission.size() == 0) {
             queryMedia();
         } else {
@@ -131,7 +129,7 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
         message.append("您还需要以下权限: ").append("\n");
         for (int i = 0; i < notGrandPermission.size(); i++) {
             String permission = notGrandPermission.get(i);
-            String chineseByPermission = mPermissionUtils.getChineseByPermission(permission);
+            String chineseByPermission = PermissionUtils.getChineseByPermission(permission);
             message.append(chineseByPermission).append("\n");
         }
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -148,7 +146,7 @@ public class SelectActivity extends BaseActivity<ActivityChooseFileBinding> impl
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        mPermissionUtils.requestPermissions(SelectActivity.this, notGrandPermission, REQUEST_PERMISSION);
+                        PermissionUtils.requestPermissions(SelectActivity.this, notGrandPermission, REQUEST_PERMISSION);
                     }
                 }).create();
         dialog.show();

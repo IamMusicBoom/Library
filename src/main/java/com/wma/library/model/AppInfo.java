@@ -73,7 +73,7 @@ public class AppInfo extends BaseModule {
         }
         this.totalPermissions = totalPermissions;
         for (String permission : this.totalPermissions) {
-            if (PermissionUtils.getInstance(BaseApplication.getContext()).isDangerousPermission(permission)) {
+            if (PermissionUtils.isDangerousPermission(permission)) {
                 this.dangerousPermissions.add(permission);
             } else {
                 this.normalPermissions.add(permission);
