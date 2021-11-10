@@ -77,12 +77,16 @@ public class PermissionUtils {
      * @return
      */
     public boolean havePermission(String permission) {
-        PackageManager pm = mContext.getPackageManager();
-        int i = pm.checkPermission(permission, mContext.getPackageName());
-        if (PackageManager.PERMISSION_GRANTED == i) {
-            return true;
+        return havePermission(permission, "");
+    }
+
+    public boolean havePermission(String permission, String packageName) {
+        if (TextUtils.isEmpty(packageName)) {
+            packageName = mContext.getPackageName();
         }
-        return false;
+        PackageManager pm = mContext.getPackageManager();
+        int i = pm.checkPermission(permission, packageName);
+        return PackageManager.PERMISSION_GRANTED == i;
     }
 
     /**
@@ -160,16 +164,60 @@ public class PermissionUtils {
      */
     public String getChineseByPermission(String permission) {
         if (Manifest.permission.CAMERA.equalsIgnoreCase(permission)) {
-            return "相机权限";
-        }
-        if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equalsIgnoreCase(permission) || Manifest.permission.READ_EXTERNAL_STORAGE.equalsIgnoreCase(permission)) {
-            return "SD卡读写权限";
+            return "相机";
+        } else if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equalsIgnoreCase(permission)) {
+            return "SD卡写";
+        } else if (Manifest.permission.READ_EXTERNAL_STORAGE.equalsIgnoreCase(permission)) {
+            return "SD卡读";
+        } else if (Manifest.permission.READ_CALENDAR.equalsIgnoreCase(permission)) {
+            return "日历读权限";
+        } else if (Manifest.permission.WRITE_CALENDAR.equalsIgnoreCase(permission)) {
+            return "新建/修改/删除日历";
+        } else if (Manifest.permission.READ_CONTACTS.equalsIgnoreCase(permission)) {
+            return "读取联系人";
+        } else if (Manifest.permission.WRITE_CONTACTS.equalsIgnoreCase(permission)) {
+            return "新建/修改/删除联系人";
+        } else if (Manifest.permission.GET_ACCOUNTS.equalsIgnoreCase(permission)) {
+            return "通讯录";
+        } else if (Manifest.permission.ACCESS_FINE_LOCATION.equalsIgnoreCase(permission)) {
+            return "精确位置信息";
+        } else if (Manifest.permission.ACCESS_COARSE_LOCATION.equalsIgnoreCase(permission)) {
+            return "粗略位置信息";
+        } else if (Manifest.permission.RECORD_AUDIO.equalsIgnoreCase(permission)) {
+            return "麦克风";
+        } else if (Manifest.permission.READ_PHONE_STATE.equalsIgnoreCase(permission)) {
+            return "读取通话状态和移动网络信息";
+        } else if (Manifest.permission.CALL_PHONE.equalsIgnoreCase(permission)) {
+            return "使用呼叫转移和拨打电话";
+        } else if (Manifest.permission.READ_CALL_LOG.equalsIgnoreCase(permission)) {
+            return "读取通话记录";
+        } else if (Manifest.permission.WRITE_CALL_LOG.equalsIgnoreCase(permission)) {
+            return "新建/修改/删除通话记录";
+        } else if (Manifest.permission.ADD_VOICEMAIL.equalsIgnoreCase(permission)) {
+            return "添加语音邮件";
+        } else if (Manifest.permission.USE_SIP.equalsIgnoreCase(permission)) {
+            return "USE_SIP";
+        } else if (Manifest.permission.PROCESS_OUTGOING_CALLS.equalsIgnoreCase(permission)) {
+            return "PROCESS_OUTGOING_CALLS";
+        } else if (Manifest.permission.BODY_SENSORS.equalsIgnoreCase(permission)) {
+            return "身体传感器";
+        } else if (Manifest.permission.SEND_SMS.equalsIgnoreCase(permission)) {
+            return "发送短信和发送彩信";
+        } else if (Manifest.permission.RECEIVE_SMS.equalsIgnoreCase(permission)) {
+            return "接受短信";
+        } else if (Manifest.permission.READ_SMS.equalsIgnoreCase(permission)) {
+            return "读取短信/彩信";
+        } else if (Manifest.permission.RECEIVE_WAP_PUSH.equalsIgnoreCase(permission)) {
+            return "信息：RECEIVE_WAP_PUSH";
+        } else if (Manifest.permission.RECEIVE_MMS.equalsIgnoreCase(permission)) {
+            return "信息：信RECEIVE_MMS";
         }
         return "";
     }
 
     /**
      * 是否为敏感权限
+     *
      * @param permission
      * @return
      */

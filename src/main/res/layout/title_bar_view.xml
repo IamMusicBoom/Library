@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:id="@+id/title_left_ll"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -20,7 +20,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/title_mid_tv">
+            >
 
             <ImageView
                 android:id="@+id/title_left_img"

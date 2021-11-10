@@ -52,6 +52,29 @@ public class AppUtils {
         return appInfos;
     }
 
+
+    public static AppInfo getAppInfoByPackageName(PackageManager pm, String packageName) {
+        AppInfo appInfo = new AppInfo();
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
+            boolean isSystemApp = false;
+            appInfo.setPackageName(packageInfo.applicationInfo.packageName);
+            appInfo.setAppName(packageInfo.applicationInfo.loadLabel(pm).toString());
+            appInfo.setAppIcon(packageInfo.applicationInfo.loadIcon(pm));
+            appInfo.setVersionName(packageInfo.versionName);
+            if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                isSystemApp = true;
+            }
+            appInfo.setSystemApp(isSystemApp);
+            appInfo.setTotalPermissions(packageInfo.requestedPermissions);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return appInfo;
+        }
+        return appInfo;
+    }
+
     /**
      * 跳转至 app 管理界面
      *
@@ -91,7 +114,8 @@ public class AppUtils {
 
     /**
      * 卸载应用，需要权限
-     *     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+     * <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+     *
      * @param packageName
      */
     public static void unInstallApp(String packageName) {
