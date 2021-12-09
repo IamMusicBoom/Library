@@ -1,4 +1,11 @@
 <resources>
+
+    <style name="ToolBar">
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <!--        <item name="navigationIcon">@mipmap/ic_launcher</item>-->
+    </style>
+
     <style name="TitleTextView" >
         <item name="android:textColor">@color/title_bar_text_color</item>
         <item name="android:textSize">@dimen/TextSize_15sp</item>

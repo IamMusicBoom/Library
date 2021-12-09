@@ -2,12 +2,15 @@ package com.wma.library.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,8 +24,7 @@ import com.wma.library.impl.IBaseImpl;
 import com.wma.library.utils.LoadingDialog;
 import com.wma.library.utils.ScreenUtils;
 import com.wma.library.utils.ToastUtils;
-import com.wma.library.widget.titlebar.OnBaseTitleBarClickListener;
-import com.wma.library.widget.titlebar.TitleBar;
+
 
 
 import java.lang.reflect.ParameterizedType;
@@ -32,10 +34,10 @@ import java.lang.reflect.Type;
  * create by wma
  * on 2020/9/10 0010
  */
-public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseImpl, OnBaseTitleBarClickListener {
+public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatActivity implements IBaseImpl {
     public String TAG;
     public B mBinding;
-    public TitleBar mTitleBar;
+    public Toolbar mTitleBar;
     public Context mContext;
     public LinearLayout mRootView;
     private boolean mImmerse;
@@ -61,12 +63,13 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         mRootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.theme_bg));
         if (null != getTitleStr()) {// 生成title
-            Toolbar title = (Toolbar) getLayoutInflater().inflate(R.layout.title_bar_view, mRootView, false);
-            mTitleBar = new TitleBar(mContext, title);
-            mTitleBar.setTitleText(getTitleStr());
-            mTitleBar.setOnTitleBarClickListener(this);
-            mRootView.addView(title);
-            setSupportActionBar(title);
+            mTitleBar = (Toolbar) getLayoutInflater().inflate(R.layout.toolbar, mRootView, false);
+            mRootView.addView(mTitleBar);
+            mTitleBar.setTitle(getTitleStr());
+            setSupportActionBar(mTitleBar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);//添加默认的返回图标
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+            getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         }
         if (getLayoutId() != 0) {// 生成内容区域
             mBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutId(), mRootView, false);
@@ -75,6 +78,43 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
             }
         }
         return mRootView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            goBack();
+        } else {
+            onMenuClick(item.getItemId());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void goBack() {
+        onBackPressed();
+    }
+
+    /**
+     * 创建菜单
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        int menuId = getMenuId();
+        if (menuId != 0) {
+            getMenuInflater().inflate(getMenuId(), menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public int getMenuId() {
+        return 0;
+    }
+
+    public void onMenuClick(int itemId) {
+
     }
 
     /**
@@ -136,16 +176,6 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         ScreenUtils.setColorForDrawerLayout(this, drawerLayout, color, alpha);
     }
 
-
-    @Override
-    public void onLeftLlClick(View view) {
-        onBackPressed();
-    }
-
-    @Override
-    public void onRightLlClick(View view) {
-
-    }
 
     public Type getType() {
         ParameterizedType genType = (ParameterizedType) getClass().getGenericSuperclass();

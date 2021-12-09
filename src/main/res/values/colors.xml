@@ -21,6 +21,8 @@
     <color name="colorNormalFinishBtn">#FF030C</color>
     <color name="colorPressFinishBtn">#D8020C</color>
 
+
+    <color name="color_414141">#414141</color>
     <color name="transparent">#55ffffff</color>
     <color name="theme_bg">#F8F8F8</color>
 </resources>
