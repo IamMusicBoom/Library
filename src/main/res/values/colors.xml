@@ -22,4 +22,5 @@
     <color name="colorPressFinishBtn">#D8020C</color>
 
     <color name="transparent">#55ffffff</color>
+    <color name="theme_bg">#F8F8F8</color>
 </resources>

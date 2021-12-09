@@ -14,6 +14,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.wma.library.base.BaseApplication;
 import com.wma.library.log.Logger;
@@ -23,6 +24,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * create by wma
@@ -304,4 +306,32 @@ public class PermissionUtils {
             }
         }
     }
+
+    /**
+     * 检查是否有通知栏管理权限
+     * @return
+     */
+    public static boolean isNotificationListenerEnabled() {
+        //NotificationManagerCompat.getEnabledListenerPackages国外某些手机系统会报错
+        try {
+            Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(BaseApplication.getContext());
+            if (packageNames.contains(BaseApplication.getContext().getPackageName())) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 跳转申请通知栏管理权限
+     * @param context
+     */
+    public static void openNotificationListenSettings(Context context) {
+        Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
 }

@@ -59,6 +59,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         mRootView = new LinearLayout(mContext);
         mRootView.setOrientation(LinearLayout.VERTICAL);
         mRootView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mRootView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.theme_bg));
         if (null != getTitleStr()) {// 生成title
             Toolbar title = (Toolbar) getLayoutInflater().inflate(R.layout.title_bar_view, mRootView, false);
             mTitleBar = new TitleBar(mContext, title);
