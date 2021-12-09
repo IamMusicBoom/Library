@@ -6,7 +6,7 @@
     <color name="title_bar_text_color">@android:color/white</color>
     <color name="status_bar_color">#9C00FC</color>
     <color name="Transparency">#00000000</color>
-    <color name="Translucence">#33000000</color>
+    <color name="Translucence">#55000000</color>
     <color name="gray">#888888</color>
 
 
@@ -25,4 +25,9 @@
     <color name="color_414141">#414141</color>
     <color name="transparent">#55ffffff</color>
     <color name="theme_bg">#F8F8F8</color>
+    <color name="switch_off_bg">#EBEBEB</color>
+    <color name="switch_track_on">#229C00FC</color>
+    <color name="switch_track_off">#A5A5A5</color>
+
+
 </resources>

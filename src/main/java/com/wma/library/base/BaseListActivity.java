@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.wma.library.R;
+import com.wma.library.widget.RecycleViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,7 @@ public abstract class BaseListActivity<MODEL extends BaseModule, ACT extends Vie
         if (mRecyclerView == null) {
             mRecyclerView = findViewById(R.id.recycler_view);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-                @Override
-                public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                    super.getItemOffsets(outRect, view, parent, state);
-                    outRect.left = 0;
-                    outRect.top = 15;
-                    outRect.right = 0;
-                    outRect.bottom = 15;
-
-                }
-            });
+            mRecyclerView.addItemDecoration(new RecycleViewDivider(getApplicationContext(),LinearLayoutManager.VERTICAL));
         }
         mRecyclerView.setAdapter(mAdapter);
     }
