@@ -18,6 +18,7 @@ import androidx.annotation.IntRange;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.wma.library.R;
+import com.wma.library.base.BaseApplication;
 
 /**
  * create by wma
@@ -178,6 +179,7 @@ public class ScreenUtils {
 
     /**
      * 获取状态栏高度
+     *
      * @param context
      * @return
      */
@@ -209,7 +211,6 @@ public class ScreenUtils {
         blue = (int) (blue * a + 0.5);
         return 0xff << 24 | red << 16 | green << 8 | blue;
     }
-
 
 
     /**
@@ -325,6 +326,23 @@ public class ScreenUtils {
         statusBarView.setBackgroundColor(Color.argb(alpha, 0, 0, 0));
         statusBarView.setId(FAKE_TRANSLUCENT_VIEW_ID);
         return statusBarView;
+    }
+
+
+    public static int getScreenWidth() {
+        WindowManager systemService = (WindowManager) (BaseApplication.getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
+        Display defaultDisplay = systemService.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        defaultDisplay.getRealMetrics(metrics);
+        return metrics.widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        WindowManager systemService = (WindowManager) (BaseApplication.getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
+        Display defaultDisplay = systemService.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        defaultDisplay.getRealMetrics(metrics);
+        return metrics.heightPixels;
     }
 
 }

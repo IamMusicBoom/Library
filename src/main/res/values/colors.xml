@@ -21,6 +21,13 @@
     <color name="colorNormalFinishBtn">#FF030C</color>
     <color name="colorPressFinishBtn">#D8020C</color>
 
+    <color name="btn_normal_color">#9C00FC</color>
+    <color name="btn_normal_ripple">#B441FB</color>
+    <color name="btn_disabled_color">#55475E</color>
+
+
+
+
 
     <color name="color_414141">#414141</color>
     <color name="transparent">#55ffffff</color>
