@@ -4,6 +4,7 @@ package com.wma.library.utils;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 
 import android.graphics.Bitmap;
@@ -132,16 +133,17 @@ public class NotificationUtils {
      *
      * @return
      */
-    public NotificationCompat.Builder createDefaultBuilder() {
+    public NotificationCompat.Builder createDefaultBuilder(PendingIntent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createDefaultChannel(mChannelDefaultId, mChannelDefaultName);
+            createImportanceChannel(mChannelDefaultId, mChannelDefaultName);
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, mChannelDefaultId);
-        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        builder.setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
                 .setSmallIcon(smallIcon)
                 .setLargeIcon(largeIcon)
+                .setFullScreenIntent(intent,true)
                 .setVibrate(new long[]{1000, 500, 2000})
                 .setAutoCancel(true)
                 .setGroup(mChannelGroupId)

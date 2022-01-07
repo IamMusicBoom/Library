@@ -26,6 +26,15 @@ public class AppUtils {
         List<PackageInfo> installedPackages = pm.getInstalledPackages(PackageManager.GET_PERMISSIONS);// 获取带权限的 list PackageManager.GET_PERMISSIONS
         for (int i = 0; i < installedPackages.size(); i++) {
             PackageInfo packageInfo = installedPackages.get(i);
+            //排除
+            if (BaseApplication.getContext().getPackageName().equals(packageInfo.packageName)) {
+                continue;
+            }
+            // 只读取Launch中的app
+            Intent launchIntent = pm.getLaunchIntentForPackage(packageInfo.packageName);
+            if (launchIntent == null) {
+                continue;
+            }
             AppInfo appInfo = new AppInfo();
             boolean isSystemApp = false;
             appInfo.setPackageName(packageInfo.applicationInfo.packageName);
