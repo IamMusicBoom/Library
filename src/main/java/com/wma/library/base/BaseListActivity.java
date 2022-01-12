@@ -37,7 +37,7 @@ public abstract class BaseListActivity<MODEL extends BaseModule, ACT extends Vie
         if (mRecyclerView == null) {
             mRecyclerView = findViewById(R.id.recycler_view);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            mRecyclerView.addItemDecoration(new RecycleViewDivider(getApplicationContext(),LinearLayoutManager.VERTICAL));
+            mRecyclerView.addItemDecoration(new RecycleViewDivider(getApplicationContext(),LinearLayoutManager.HORIZONTAL));
         }
         mRecyclerView.setAdapter(mAdapter);
     }

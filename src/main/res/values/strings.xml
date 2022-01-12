@@ -4,5 +4,30 @@
     <string name="title">标题</string>
     <string name="go">前进</string>
     <string name="empty_str">""</string>
+    <string name="txt_permission_CAMERA">拍照权限</string>
+    <string name="txt_permission_WRITE_EXTERNAL_STORAGE">向SD写入数据</string>
+    <string name="txt_permission_READ_EXTERNAL_STORAGE">读取SD卡数据</string>
+    <string name="txt_permission_READ_CALENDAR">读取日程提醒</string>
+    <string name="txt_permission_WRITE_CALENDAR">写入日程提醒</string>
+    <string name="txt_permission_RECEIVE_MMS">接收彩信</string>
+    <string name="txt_permission_RECEIVE_WAP_PUSH">接收Wap Push</string>
+    <string name="txt_permission_READ_SMS">读取短信/彩信</string>
+    <string name="txt_permission_RECEIVE_SMS">接受短信</string>
+    <string name="txt_permission_SEND_SMS">发送短信和发送彩信</string>
+    <string name="txt_permission_BODY_SENSORS">身体传感器</string>
+    <string name="txt_permission_PROCESS_OUTGOING_CALLS">处理拨出电话</string>
+    <string name="txt_permission_USE_SIP">使用SIP视频</string>
+    <string name="txt_permission_ADD_VOICEMAIL">添加语音邮件</string>
+    <string name="txt_permission_WRITE_CALL_LOG">新建/修改/删除通话记录</string>
+    <string name="txt_permission_READ_CALL_LOG">读取通话记录</string>
+    <string name="txt_permission_CALL_PHONE">拨打电话</string>
+    <string name="txt_permission_READ_PHONE_STATE">读取电话状态</string>
+    <string name="txt_permission_RECORD_AUDIO">录音</string>
+    <string name="txt_permission_ACCESS_COARSE_LOCATION">获取粗略位置</string>
+    <string name="txt_permission_ACCESS_FINE_LOCATION">获取精确位置</string>
+    <string name="txt_permission_GET_ACCOUNTS">访问账户权限</string>
+    <string name="txt_permission_WRITE_CONTACTS">写入联系人</string>
+    <string name="txt_permission_READ_CONTACTS">读取联系人</string>
+    <string name="txt_permission_SYSTEM_ALERT_WINDOW">悬浮窗权限</string>
 
 </resources>
