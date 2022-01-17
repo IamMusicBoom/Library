@@ -6,9 +6,11 @@ import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Process;
 import android.provider.Settings;
 import android.text.TextUtils;
 
@@ -69,6 +71,7 @@ import java.util.Set;
 public class PermissionUtils {
 
     public static final int REQUEST_CODE_ALERT_WINDOW = 10011;
+    private static final int REQUEST_CODE_USAGE_STATS = 10012;
 
     /**
      * 敏感权限
@@ -76,7 +79,6 @@ public class PermissionUtils {
     private static String[] dangerousPermissions = {"READ_CALENDAR", "WRITE_CALENDAR", "CAMERA", "READ_CONTACTS", "WRITE_CONTACTS", "GET_ACCOUNTS", "ACCESS_FINE_LOCATION"
             , "ACCESS_COARSE_LOCATION", "RECORD_AUDIO", "READ_PHONE_STATE", "CALL_PHONE", "READ_CALL_LOG", "WRITE_CALL_LOG", "ADD_VOICEMAIL", "USE_SIP", "PROCESS_OUTGOING_CALLS"
             , "BODY_SENSORS", "SEND_SMS", "RECEIVE_SMS", "READ_SMS", "RECEIVE_WAP_PUSH", "RECEIVE_MMS", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"};
-
 
 
     private static final String TAG = PermissionUtils.class.getSimpleName();
@@ -177,7 +179,7 @@ public class PermissionUtils {
      * @return
      */
     public static String getChineseByPermission(String permission) {
-       return PermissionData.getPermissionName(permission);
+        return PermissionData.getPermissionName(permission);
     }
 
     /**
@@ -200,9 +202,10 @@ public class PermissionUtils {
 
     /**
      * 检查是否有悬浮窗权限
+     *
      * @return
      */
-    public static boolean isAlertWindowGranted(){
+    public static boolean isAlertWindowGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.canDrawOverlays(BaseApplication.getContext());
         }
@@ -211,9 +214,10 @@ public class PermissionUtils {
 
     /**
      * 申请悬浮窗权限
+     *
      * @param activity
      */
-    public static void requestAlertWindowPermission(Activity activity){
+    public static void requestAlertWindowPermission(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
             intent.setData(Uri.parse("package:" + BaseApplication.getContext().getPackageName()));
@@ -261,6 +265,7 @@ public class PermissionUtils {
 
     /**
      * 检查是否有通知栏管理权限
+     *
      * @return
      */
     public static boolean isNotificationListenerEnabled() {
@@ -278,6 +283,7 @@ public class PermissionUtils {
 
     /**
      * 跳转申请通知栏管理权限
+     *
      * @param context
      */
     public static void openNotificationListenSettings(Context context) {
@@ -286,4 +292,57 @@ public class PermissionUtils {
         context.startActivity(intent);
     }
 
+
+    /**
+     * 应用查看权限是否开启
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isUsageStatsPermissionGranted(Context context) {
+        if (!isSupportUsageStats(context)) {
+            return true;
+        }
+        if (isUsageStatsGrant(context)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isSupportUsageStats(Context context) {
+        if (null == context || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            return false;
+        }
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list != null && list.size() > 0;
+    }
+
+    /**
+     * 查看使用权限
+     *
+     * @return
+     */
+    private static boolean isUsageStatsGrant(Context context) {
+        AppOpsManager opsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+
+        final int mode = opsManager.checkOp(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                Process.myUid(), context.getPackageName());
+        if (mode == AppOpsManager.MODE_DEFAULT) {
+            return context.checkCallingPermission("android.permission.PACKAGE_USAGE_STATS")
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+        return mode == AppOpsManager.MODE_ALLOWED;
+    }
+
+    public static void requestUsageStatsPermission(Activity activity) {
+
+        if (null == activity) {
+            return;
+        }
+        Intent intent = new Intent("android.settings.USAGE_ACCESS_SETTINGS");
+        activity.startActivityForResult(intent, REQUEST_CODE_USAGE_STATS);
+
+    }
 }

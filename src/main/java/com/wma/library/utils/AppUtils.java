@@ -1,5 +1,9 @@
 package com.wma.library.utils;
 
+import android.app.usage.UsageEvents;
+import android.app.usage.UsageStatsManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -132,5 +136,27 @@ public class AppUtils {
         Intent intent = new Intent(Intent.ACTION_DELETE, uri);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         BaseApplication.getContext().startActivity(intent);
+    }
+
+    public static ComponentName getMoveToFgComponent(Context context) {
+        UsageStatsManager usageManager = (UsageStatsManager) context.getApplicationContext().getSystemService(Context.USAGE_STATS_SERVICE);;
+        long now = System.currentTimeMillis();
+        UsageEvents events = usageManager.queryEvents(now - 1000, now);
+        String pkgName = null;
+        String clsName = null;
+        while (events.hasNextEvent()) {
+            UsageEvents.Event e = new UsageEvents.Event();
+            events.getNextEvent(e);
+            if (e.getEventType() == UsageEvents.Event.ACTIVITY_RESUMED) {
+                pkgName = e.getPackageName();
+                clsName = e.getClassName();
+            }
+        }
+
+        ComponentName comp = null;
+        if (pkgName != null && clsName != null) {
+            comp = new ComponentName(pkgName, clsName);
+        }
+        return comp;
     }
 }
