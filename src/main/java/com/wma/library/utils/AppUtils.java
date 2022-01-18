@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.Settings;
 
@@ -139,9 +140,10 @@ public class AppUtils {
     }
 
     public static ComponentName getMoveToFgComponent(Context context) {
-        UsageStatsManager usageManager = (UsageStatsManager) context.getApplicationContext().getSystemService(Context.USAGE_STATS_SERVICE);;
+        UsageStatsManager usageManager = (UsageStatsManager) context.getApplicationContext().getSystemService(Context.USAGE_STATS_SERVICE);
+        ;
         long now = System.currentTimeMillis();
-        UsageEvents events = usageManager.queryEvents(now - 1000, now);
+        UsageEvents events = usageManager.queryEvents(now - 5000, now);
         String pkgName = null;
         String clsName = null;
         while (events.hasNextEvent()) {
@@ -158,5 +160,35 @@ public class AppUtils {
             comp = new ComponentName(pkgName, clsName);
         }
         return comp;
+    }
+
+    public static String getAppName(Context context, String packageName) {
+
+        ApplicationInfo appInfo = null;
+        PackageManager pm = context.getPackageManager();
+        try {
+            appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+
+            return pm.getApplicationLabel(appInfo).toString();
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public static Drawable getAppIcon(Context context, String packageName) {
+        ApplicationInfo appInfo = null;
+        PackageManager pm = context.getPackageManager();
+        try {
+            appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+
+            return pm.getApplicationIcon(appInfo);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -5,10 +5,10 @@
 // （4） 如有修改或添加，直接在这里操作然后用 git 提交至对应的分支 加点注释测试以下 --WMA
 ext {
     android = [
-            buildToolsVersion: "29.0.2",
-            compileSdkVersion: 29,
+            buildToolsVersion: "30.0.0",
+            compileSdkVersion: 30,
             minSdkVersion    : 21,
-            targetSdkVersion : 29,
+            targetSdkVersion : 30,
             versionCode      : 1,
             versionName      : "1.0"
     ]

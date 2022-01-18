@@ -10,6 +10,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Process;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -71,7 +72,7 @@ import java.util.Set;
 public class PermissionUtils {
 
     public static final int REQUEST_CODE_ALERT_WINDOW = 10011;
-    private static final int REQUEST_CODE_USAGE_STATS = 10012;
+    public static final int REQUEST_CODE_USAGE_STATS = 10012;
 
     /**
      * 敏感权限
@@ -136,10 +137,6 @@ public class PermissionUtils {
     }
 
 
-//    public static PermissionUtils getInstance(Context context) {
-//        return new PermissionUtils(context);
-//    }
-
     /**
      * 动态申请权限
      *
@@ -153,6 +150,26 @@ public class PermissionUtils {
             permissions[i] = list.get(i);
         }
         ActivityCompat.requestPermissions(activity, permissions, requestcode);
+    }
+
+    /**
+     * 权限申请后的处理
+     *
+     * @param permissions
+     * @param grantResults
+     */
+    public static String[] requestResultA(String[] permissions, int[] grantResults) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < permissions.length; i++) {
+            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                list.add(permissions[i]);
+            }
+        }
+        String[] notGrantedPermissions = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            notGrantedPermissions[i] = list.get(i);
+        }
+        return notGrantedPermissions;
     }
 
     /**
@@ -344,5 +361,40 @@ public class PermissionUtils {
         Intent intent = new Intent("android.settings.USAGE_ACCESS_SETTINGS");
         activity.startActivityForResult(intent, REQUEST_CODE_USAGE_STATS);
 
+    }
+
+    /**
+     * 存储权限是否被赋予
+     *
+     * @return
+     */
+    public static boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return isAllPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+    }
+
+    /**
+     * 是否包含存储权限
+     *
+     * @param permissions
+     * @return
+     */
+    public static boolean isContainsStorage(String[] permissions) {
+        if (permissions == null || permissions.length <= 0) {
+            return false;
+        }
+        for (String permission : permissions) {
+            if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permission) || Manifest.permission.READ_EXTERNAL_STORAGE.equals(permission)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

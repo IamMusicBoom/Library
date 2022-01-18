@@ -41,6 +41,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     public Context mContext;
     public LinearLayout mRootView;
     private boolean mImmerse;
+    public Menu mMenu;
 
 
     @Override
@@ -85,7 +86,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         if (item.getItemId() == android.R.id.home) {
             goBack();
         } else {
-            onMenuClick(item.getItemId());
+            onMenuClick(item);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,15 +106,21 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
         int menuId = getMenuId();
         if (menuId != 0) {
             getMenuInflater().inflate(getMenuId(), menu);
+            mMenu = menu;
+            initMenuFinish();
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void initMenuFinish() {
+
     }
 
     public int getMenuId() {
         return 0;
     }
 
-    public void onMenuClick(int itemId) {
+    public void onMenuClick(MenuItem item) {
 
     }
 

@@ -30,7 +30,7 @@ import java.util.List;
  * create by wma
  * on 2020/10/23 0023
  */
-public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataBinding> extends BaseActivity<B> implements HttpCallbackListener, OnRefreshListener, OnLoadMoreListener, ResultHandleListener<T> {
+public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataBinding> extends BasePermissionActivity<B> implements HttpCallbackListener, OnRefreshListener, OnLoadMoreListener, ResultHandleListener<T> {
     private SmartRefreshLayout mSmartRefreshLayout;
     private boolean isEnableRefresh,isEnableLoadMore;
     @Override
@@ -212,5 +212,20 @@ public abstract class BaseLoadActivity<T extends BaseModule, B extends ViewDataB
             }
         }
         hideLoading();
+    }
+
+    @Override
+    public void onPermissionDenied(String[] permissions, boolean isNeverTips) {
+
+    }
+
+    @Override
+    public void onPermissionGranted() {
+
+    }
+
+    @Override
+    public String[] getPermissions() {
+        return new String[0];
     }
 }
