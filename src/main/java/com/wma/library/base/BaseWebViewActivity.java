@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.wma.library.R;
 import com.wma.library.databinding.ActivityBaseWebViewBinding;
-import com.wma.library.log.Logger;
+import com.wma.library.log.LogUtil;
 
 /**
  * create by wma
@@ -33,7 +33,7 @@ public abstract class BaseWebViewActivity extends BaseActivity<ActivityBaseWebVi
         // 设置允许JS弹窗
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         String url = getIntent().getStringExtra(KEY_URL);
-        Logger.d(TAG, "init: url = " + url);
+        LogUtil.d(TAG, "init: url = " + url);
         mBinding.webView.loadUrl(url);
 
         // 由于设置了弹窗检验调用结果,所以需要支持js对话框

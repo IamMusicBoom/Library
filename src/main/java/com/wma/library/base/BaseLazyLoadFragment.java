@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.wma.library.log.Logger;
 
 /**
  * create by wma

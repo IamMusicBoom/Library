@@ -1,14 +1,11 @@
 package com.wma.library.base;
 
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.wma.library.log.Logger;
 
 /**
  * create by wma

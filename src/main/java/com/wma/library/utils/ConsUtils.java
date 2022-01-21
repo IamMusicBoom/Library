@@ -2,13 +2,6 @@ package com.wma.library.utils;
 
 import android.icu.util.Calendar;
 
-import com.wma.library.log.Logger;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 /**

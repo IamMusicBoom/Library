@@ -12,8 +12,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.wma.library.log.Logger;
-
 /**
  * Created by WMA on 2021/11/10.
  */

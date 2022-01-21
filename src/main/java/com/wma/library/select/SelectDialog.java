@@ -1,6 +1,5 @@
 package com.wma.library.select;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,17 +11,11 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import com.wma.library.R;
 import com.wma.library.databinding.DialogChooseFileTypeBinding;
-import com.wma.library.log.Logger;
-
-import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_OK;
 
 
 /**

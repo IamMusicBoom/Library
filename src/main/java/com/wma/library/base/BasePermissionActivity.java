@@ -1,9 +1,7 @@
 package com.wma.library.base;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,11 +10,9 @@ import android.provider.Settings;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.ViewDataBinding;
 
 
-import com.wma.library.log.Logger;
 import com.wma.library.utils.PermissionUtils;
 
 import java.util.ArrayList;

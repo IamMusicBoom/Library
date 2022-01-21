@@ -3,11 +3,10 @@ package com.wma.library.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.wma.library.log.Logger;
+import com.wma.library.log.LogUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,7 +82,7 @@ public class FileUtils {
         try {
             File originalFile = new File(oldPath);
             if (!originalFile.exists()) {
-                Logger.e(TAG, "copyFile: 源文件不存在，无法复制");
+                LogUtil.e(TAG, "copyFile: 源文件不存在，无法复制");
                 return false;
             }
             in = new FileInputStream(oldPath);

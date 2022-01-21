@@ -15,7 +15,7 @@ import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
-import com.wma.library.log.Logger;
+import com.wma.library.log.LogUtil;
 import com.wma.library.utils.http.HttpCallbackListener;
 import com.wma.library.utils.http.Request;
 import com.wma.library.utils.json.JsonParserUtils;
@@ -163,8 +163,8 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
     @Override
     public void onSuccess(String result, Request request) {
         String from = request.getFrom();
-        Logger.d(TAG, "onSuccess: from = " + from + " url = " + request.getUrl());
-        Logger.d(TAG, "onSuccess: result = " + result);
+        LogUtil.d(TAG, "onSuccess: from = " + from + " url = " + request.getUrl());
+        LogUtil.d(TAG, "onSuccess: result = " + result);
         JsonParserUtils<T> tJsonParserUtils = new JsonParserUtils<>(this);
         if (Request.FROM_JU_HE.equals(from)) {
             tJsonParserUtils.parserByJuHe(result, getType());
@@ -175,13 +175,13 @@ public abstract class BaseLoadFragment<T extends BaseModule, B extends ViewDataB
 
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
-        Logger.e(TAG, "onError: ex = " + ex);
+        LogUtil.e(TAG, "onError: ex = " + ex);
         fail(ex.toString());
     }
 
     @Override
     public void onCancelled(Callback.CancelledException cex) {
-        Logger.d(TAG, "onCancelled: cex = " + cex);
+        LogUtil.d(TAG, "onCancelled: cex = " + cex);
         fail(cex.toString());
     }
 

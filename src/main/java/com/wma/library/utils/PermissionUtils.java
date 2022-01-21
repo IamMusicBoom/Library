@@ -2,7 +2,10 @@ package com.wma.library.utils;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AppOpsManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,18 +18,16 @@ import android.os.Process;
 import android.provider.Settings;
 import android.text.TextUtils;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.wma.library.base.BaseApplication;
 import com.wma.library.data.PermissionData;
-import com.wma.library.log.Logger;
+import com.wma.library.log.LogUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -181,7 +182,7 @@ public class PermissionUtils {
     public static List<String> requestResult(String[] permissions, int[] grantResults) {
         List<String> notGrantedPermissions = new ArrayList<>();
         for (int i = 0; i < permissions.length; i++) {
-            Logger.d(TAG, "requestResult: permission = " + permissions[i] + " grant = " + grantResults[i]);
+            LogUtil.d(TAG, "requestResult: permission = " + permissions[i] + " grant = " + grantResults[i]);
             if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                 notGrantedPermissions.add(permissions[i]);
             }
@@ -396,5 +397,29 @@ public class PermissionUtils {
             }
         }
         return false;
+    }
+
+
+    /**
+     * 查看辅助服务权限是否开启
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isAccessibilitySettingsOn(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName componentName = new ComponentName(context.getPackageName(), context.getPackageName() + ".business.red.bag.RedBagService");
+        PendingIntent intent = am.getRunningServiceControlPanel(componentName);
+        return intent != null;
+    }
+
+    /**
+     * 申请辅助服务权限
+     * @param context
+     */
+    public static void requestAccessibility(Context context) {
+        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }

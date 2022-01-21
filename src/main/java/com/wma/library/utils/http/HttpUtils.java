@@ -2,7 +2,7 @@ package com.wma.library.utils.http;
 
 import android.text.TextUtils;
 
-import com.wma.library.log.Logger;
+import com.wma.library.log.LogUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.HttpMethod;
@@ -23,17 +23,17 @@ public class HttpUtils {
 
     public Callback.Cancelable request(final Request request, final HttpCallbackListener callback) {
         if (request == null) {
-            Logger.e(TAG, "request: 请求对象为空");
+            LogUtil.e(TAG, "request: 请求对象为空");
             return null;
         }
         HttpMethod httpMethod = request.getRequestType();
         if (httpMethod == null) {
-            Logger.e(TAG, "request: 请求对方式不对");
+            LogUtil.e(TAG, "request: 请求对方式不对");
             return null;
         }
         String url = request.getUrl();
         if (TextUtils.isEmpty(url)) {
-            Logger.e(TAG, "request: 请求地址为空");
+            LogUtil.e(TAG, "request: 请求地址为空");
             return null;
         }
         RequestParams entity = new RequestParams(url);
@@ -98,17 +98,17 @@ public class HttpUtils {
 
     public Callback.Cancelable uploadFile(final Request request, final HttpProgressListener callback) {
         if (request == null) {
-            Logger.e(TAG, "request: 请求对象为空");
+            LogUtil.e(TAG, "request: 请求对象为空");
             return null;
         }
         HttpMethod httpMethod = request.getRequestType();
         if (httpMethod == null) {
-            Logger.e(TAG, "request: 请求对方式不对");
+            LogUtil.e(TAG, "request: 请求对方式不对");
             return null;
         }
         String url = request.getUrl();
         if (TextUtils.isEmpty(url)) {
-            Logger.e(TAG, "request: 请求地址为空");
+            LogUtil.e(TAG, "request: 请求地址为空");
             return null;
         }
         RequestParams entity = new RequestParams(url);

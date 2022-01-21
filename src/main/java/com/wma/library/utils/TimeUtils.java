@@ -1,14 +1,5 @@
 package com.wma.library.utils;
 
-import android.graphics.Color;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
-import com.bigkoo.pickerview.view.TimePickerView;
-import com.wma.library.log.Logger;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
