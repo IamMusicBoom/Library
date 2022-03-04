@@ -21,10 +21,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.wma.library.R;
 import com.wma.library.impl.IBaseImpl;
+import com.wma.library.log.LogUtil;
 import com.wma.library.utils.LoadingDialog;
 import com.wma.library.utils.ScreenUtils;
 import com.wma.library.utils.ToastUtils;
-
 
 
 import java.lang.reflect.ParameterizedType;
@@ -47,7 +47,7 @@ public abstract class BaseActivity<B extends ViewDataBinding> extends AppCompatA
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TAG = this.getClass().getSimpleName();
+        TAG = LogUtil.GLOBAL_TAG + "_" + this.getClass().getSimpleName();
         mContext = this;
         beforeSetContentView();
         setContentView(generateRootView());

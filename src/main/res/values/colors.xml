@@ -37,4 +37,8 @@
     <color name="switch_track_off">#A5A5A5</color>
 
 
+    <color name="progressBGColor">#008FA3</color>
+    <color name="progressFGColor">#2FE7FF</color>
+
+
 </resources>
