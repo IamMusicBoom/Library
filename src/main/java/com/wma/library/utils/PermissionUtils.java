@@ -408,9 +408,11 @@ public class PermissionUtils {
      */
     public static boolean isAccessibilitySettingsOn(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        ComponentName componentName = new ComponentName(context.getPackageName(), context.getPackageName() + ".business.red.bag.RedBagService");
-        PendingIntent intent = am.getRunningServiceControlPanel(componentName);
-        return intent != null;
+        ComponentName redBagCN = new ComponentName(context.getPackageName(), context.getPackageName() + ".business.red.bag.RedBagService");
+        PendingIntent redBagIntent = am.getRunningServiceControlPanel(redBagCN);
+        ComponentName rushCN = new ComponentName(context.getPackageName(), context.getPackageName() + ".business.red.bag.RushService");
+        PendingIntent rushIntent = am.getRunningServiceControlPanel(rushCN);
+        return redBagIntent != null || rushIntent != null;
     }
 
     /**

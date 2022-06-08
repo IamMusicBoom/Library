@@ -2,6 +2,8 @@ package com.wma.library.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Environment;
+import android.util.Log;
 
 import com.wma.library.log.LogUtil;
 
@@ -10,6 +12,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * create by wma
@@ -113,4 +120,10 @@ public class FileUtils {
         }
         return true;
     }
+
+
+
+
+
+
 }
